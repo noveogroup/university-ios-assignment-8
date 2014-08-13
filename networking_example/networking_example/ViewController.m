@@ -8,6 +8,7 @@
 @property (strong, nonatomic) IBOutlet UIImageView *imageView;
 @property (strong, nonatomic) IBOutlet UIButton *button;
 @property (strong, nonatomic) IBOutlet UITextField *textField;
+@property (strong, nonatomic) NSArray* repositories;
 @end
 
 
@@ -48,13 +49,14 @@
     typeof(self) __weak wself = self;
     
     [self.controller
-     getAvatarForUser:userName
-     success:^(NSURL *imageURL) {
-         [wself.imageView setImageWithURL:imageURL];
+     getRepositoriesForUser:userName
+     success:^(NSArray *repositories) {
+         wself.repositories = repositories;
      }
      failure:^(NSError *error) {
          NSLog(@"Error: %@", error);
      }];
+    NSLog(@"showImage");
 }
 
 @end

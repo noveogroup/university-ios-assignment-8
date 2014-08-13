@@ -4,8 +4,8 @@
 @interface GITHUBAPIController : NSObject
 + (instancetype)sharedController;
 
-- (void)getAvatarForUser:(NSString *)userName
-    success:(void(^)(NSURL *))success
+- (void)getRepositoriesForUser:(NSString *)userName
+    success:(void(^)(NSArray *))success
     failure:(void(^)(NSError *))failure;
 
 @end

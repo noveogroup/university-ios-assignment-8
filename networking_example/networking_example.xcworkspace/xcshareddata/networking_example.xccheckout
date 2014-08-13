@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>IDESourceControlProjectFavoriteDictionaryKey</key>
+	<false/>
+	<key>IDESourceControlProjectIdentifier</key>
+	<string>1EC90A0B-79E7-4DCF-98C6-62E64045C4AE</string>
+	<key>IDESourceControlProjectName</key>
+	<string>networking_example</string>
+	<key>IDESourceControlProjectOriginsDictionary</key>
+	<dict>
+		<key>98E313CB-6F90-4790-AD77-6DAA1D7DFB95</key>
+		<string>https://github.com/IlyaTolstihin/university-ios-assignment-8.git</string>
+	</dict>
+	<key>IDESourceControlProjectPath</key>
+	<string>networking_example/networking_example.xcworkspace</string>
+	<key>IDESourceControlProjectRelativeInstallPathDictionary</key>
+	<dict>
+		<key>98E313CB-6F90-4790-AD77-6DAA1D7DFB95</key>
+		<string>../..</string>
+	</dict>
+	<key>IDESourceControlProjectURL</key>
+	<string>https://github.com/IlyaTolstihin/university-ios-assignment-8.git</string>
+	<key>IDESourceControlProjectVersion</key>
+	<integer>110</integer>
+	<key>IDESourceControlProjectWCCIdentifier</key>
+	<string>98E313CB-6F90-4790-AD77-6DAA1D7DFB95</string>
+	<key>IDESourceControlProjectWCConfigurations</key>
+	<array>
+		<dict>
+			<key>IDESourceControlRepositoryExtensionIdentifierKey</key>
+			<string>public.vcs.git</string>
+			<key>IDESourceControlWCCIdentifierKey</key>
+			<string>98E313CB-6F90-4790-AD77-6DAA1D7DFB95</string>
+			<key>IDESourceControlWCCName</key>
+			<string>university-ios-assignment-8</string>
+		</dict>
+	</array>
+</dict>
+</plist>

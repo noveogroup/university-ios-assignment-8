@@ -37,40 +37,68 @@ static NSString *const kBaseAPIURL = @"https://api.github.com";
 
 #pragma mark - Inner requests
 
-- (void)getInfoForUser:(NSString *)userName
-    success:(void (^)(NSDictionary *))success
-    failure:(void (^)(NSError *))failure
+-(AFHTTPRequestOperation *)getCommitsforRepository:(NSString *)repositoryName
+                          user:(NSString *)userName
+                      success:(void (^)(NSArray *))success
+                      failure:(void (^)(NSError *))failure
 {
     NSString *requestString = [NSString
-        stringWithFormat:@"users/%@", userName];
+                               stringWithFormat:@"repos/%@/%@/commits", userName, repositoryName];
     
-    [self.requestManager
-        GET:requestString
-        parameters:nil
-        success:^(AFHTTPRequestOperation *operation, id responseObject) {
-            success(responseObject);
-        }
-        failure:^(AFHTTPRequestOperation *operation, NSError *error) {
-            failure(error);
-        }];
+    return [self.requestManager
+     GET:requestString
+     parameters:nil
+     success:^(AFHTTPRequestOperation *operation, id responseObject) {
+         NSArray* responseArray = responseObject;
+         success(responseArray);
+     }
+     failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+         failure(error);
+     }];
     
 }
 
 #pragma mark - Public methods
 
-- (void)getAvatarForUser:(NSString *)userName
-    success:(void (^)(NSURL *))success
+- (void)getRepositoriesForUser:(NSString *)userName
+    success:(void (^)(NSArray *))success
     failure:(void (^)(NSError *))failure
 {
-    [self getInfoForUser:userName
-        success:^(NSDictionary *userInfo) {
-            NSString *avatarURLString = userInfo[@"avatar_url"];
-            NSURL *avatarURL = [NSURL URLWithString:avatarURLString];
-            success(avatarURL);
-        }
-        failure:^(NSError *error) {
-            failure(error);
-        }];
+    typeof(self) __weak wself = self;
+    
+    NSString *requestString = [NSString
+                               stringWithFormat:@"users/%@/repos", userName];
+    
+    [self.requestManager
+     GET:requestString
+     parameters:nil
+     success:^(AFHTTPRequestOperation *operation, id responseObject) {
+         
+         NSArray* responseArray = responseObject;
+         NSMutableArray* mutableRepositories = [[NSMutableArray alloc]init];
+         for(NSDictionary* repository in responseArray){
+             NSMutableDictionary* mutableRepository = [repository mutableCopy];
+             NSString* repositoryName = repository[@"name"];
+             
+             [wself getCommitsforRepository:repositoryName
+                                       user:userName
+                                    success:^(NSArray * commits) {
+                 [mutableRepository setObject:[NSNumber numberWithInt:[commits count]] forKey:@"CommitsCount"];
+                 [mutableRepositories addObject:mutableRepository];
+             } failure:^(NSError * error) {
+                 failure(error);
+             }];
+         }
+         success(mutableRepositories);
+         
+     }
+     failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+         failure(error);
+     }];
 }
 
 @end
+
+
+
+
