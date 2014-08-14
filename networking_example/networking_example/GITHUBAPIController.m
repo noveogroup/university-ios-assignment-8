@@ -49,8 +49,17 @@ static NSString *const kBaseAPIURL = @"https://api.github.com";
      GET:requestString
      parameters:nil
      success:^(AFHTTPRequestOperation *operation, id responseObject) {
-         NSArray* responseArray = responseObject;
-         success(responseArray);
+         if ([responseObject isKindOfClass:[NSArray class]]) {
+             NSArray* responseArray = responseObject;
+             success(responseArray);
+         } else {
+             UIAlertView* alert = [[UIAlertView alloc]initWithTitle:@"Error"
+                                                            message:@"Unexpected response"
+                                                           delegate:nil cancelButtonTitle:@"YEEEAH"
+                                                  otherButtonTitles:nil, nil];
+             [alert show];
+             success(nil);
+         }
      }
      failure:^(AFHTTPRequestOperation *operation, NSError *error) {
          failure(error);
@@ -64,38 +73,31 @@ static NSString *const kBaseAPIURL = @"https://api.github.com";
     success:(void (^)(NSArray *))success
     failure:(void (^)(NSError *))failure
 {
-    typeof(self) __weak wself = self;
     
     NSString *requestString = [NSString
-                               stringWithFormat:@"users/%@/repos", userName];
-    
+                               stringWithFormat:@"users/%@/repos", userName];    
     [self.requestManager
      GET:requestString
      parameters:nil
      success:^(AFHTTPRequestOperation *operation, id responseObject) {
-         
-         NSArray* responseArray = responseObject;
-         NSMutableArray* mutableRepositories = [[NSMutableArray alloc]init];
-         for(NSDictionary* repository in responseArray){
-             NSMutableDictionary* mutableRepository = [repository mutableCopy];
-             NSString* repositoryName = repository[@"name"];
-             
-             [wself getCommitsforRepository:repositoryName
-                                       user:userName
-                                    success:^(NSArray * commits) {
-                 [mutableRepository setObject:[NSNumber numberWithInt:[commits count]] forKey:@"CommitsCount"];
-                 [mutableRepositories addObject:mutableRepository];
-             } failure:^(NSError * error) {
-                 failure(error);
-             }];
+         if ([responseObject isKindOfClass:[NSArray class]]) {
+             NSArray* responseArray = responseObject;
+             success(responseArray);
+         } else {
+             UIAlertView* alert = [[UIAlertView alloc]initWithTitle:@"Error"
+                                                            message:@"Unexpected response"
+                                                           delegate:nil cancelButtonTitle:@"YEEEAH"
+                                                  otherButtonTitles:nil, nil];
+             [alert show];
+             success(nil);
          }
-         success(mutableRepositories);
          
      }
      failure:^(AFHTTPRequestOperation *operation, NSError *error) {
          failure(error);
      }];
 }
+
 
 @end
 
