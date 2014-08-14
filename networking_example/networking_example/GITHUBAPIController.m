@@ -27,12 +27,12 @@ static NSString *const kBaseAPIURL = @"https://api.github.com";
 
 + (instancetype)sharedController
 {
-    static GITHUBAPIController *_instance = nil;
-    if (_instance == nil) {
-        _instance = [[self alloc] init];
-    }
-
-    return _instance;
+    static GITHUBAPIController *instance;
+    static dispatch_once_t token = 0;
+    dispatch_once(&token, ^{
+       instance = [[self alloc]init];
+    });
+    return instance;
 }
 
 #pragma mark - Inner requests
@@ -43,6 +43,25 @@ static NSString *const kBaseAPIURL = @"https://api.github.com";
 {
     NSString *requestString = [NSString
         stringWithFormat:@"users/%@", userName];
+    
+    [self.requestManager
+        GET:requestString
+        parameters:nil
+        success:^(AFHTTPRequestOperation *operation, id responseObject) {
+            success(responseObject);
+        }
+        failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+            failure(error);
+        }];
+    
+}
+
+- (void)getDataForUser:(NSString *)userName
+    success:(void (^)(NSArray *))success
+    failure:(void (^)(NSError *))failure
+{
+    NSString *requestString = [NSString
+        stringWithFormat:@"users/%@/repos", userName];
     
     [self.requestManager
         GET:requestString
