@@ -6,3 +6,9 @@
 #
 # Pods/
 
+*.DS_Store
+networking_example/Pods/Pods.xcodeproj/xcuserdata/*
+networking_example/networking_example.xcodeproj/xcuserdata/*
+networking_example/networking_example.xcworkspace/xcuserdata/*
+networking_example/networking_example.xcworkspace/xcshareddata/networking_example.xccheckout
+
