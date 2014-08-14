@@ -37,40 +37,70 @@ static NSString *const kBaseAPIURL = @"https://api.github.com";
 
 #pragma mark - Inner requests
 
-- (void)getInfoForUser:(NSString *)userName
-    success:(void (^)(NSDictionary *))success
-    failure:(void (^)(NSError *))failure
+-(AFHTTPRequestOperation *)getCommitsforRepository:(NSString *)repositoryName
+                          user:(NSString *)userName
+                      success:(void (^)(NSArray *))success
+                      failure:(void (^)(NSError *))failure
 {
     NSString *requestString = [NSString
-        stringWithFormat:@"users/%@", userName];
+                               stringWithFormat:@"repos/%@/%@/commits", userName, repositoryName];
     
-    [self.requestManager
-        GET:requestString
-        parameters:nil
-        success:^(AFHTTPRequestOperation *operation, id responseObject) {
-            success(responseObject);
-        }
-        failure:^(AFHTTPRequestOperation *operation, NSError *error) {
-            failure(error);
-        }];
+    return [self.requestManager
+     GET:requestString
+     parameters:nil
+     success:^(AFHTTPRequestOperation *operation, id responseObject) {
+         if ([responseObject isKindOfClass:[NSArray class]]) {
+             NSArray* responseArray = responseObject;
+             success(responseArray);
+         } else {
+             UIAlertView* alert = [[UIAlertView alloc]initWithTitle:@"Error"
+                                                            message:@"Unexpected response"
+                                                           delegate:nil cancelButtonTitle:@"YEEEAH"
+                                                  otherButtonTitles:nil, nil];
+             [alert show];
+             success(nil);
+         }
+     }
+     failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+         failure(error);
+     }];
     
 }
 
 #pragma mark - Public methods
 
-- (void)getAvatarForUser:(NSString *)userName
-    success:(void (^)(NSURL *))success
+- (void)getRepositoriesForUser:(NSString *)userName
+    success:(void (^)(NSArray *))success
     failure:(void (^)(NSError *))failure
 {
-    [self getInfoForUser:userName
-        success:^(NSDictionary *userInfo) {
-            NSString *avatarURLString = userInfo[@"avatar_url"];
-            NSURL *avatarURL = [NSURL URLWithString:avatarURLString];
-            success(avatarURL);
-        }
-        failure:^(NSError *error) {
-            failure(error);
-        }];
+    
+    NSString *requestString = [NSString
+                               stringWithFormat:@"users/%@/repos", userName];    
+    [self.requestManager
+     GET:requestString
+     parameters:nil
+     success:^(AFHTTPRequestOperation *operation, id responseObject) {
+         if ([responseObject isKindOfClass:[NSArray class]]) {
+             NSArray* responseArray = responseObject;
+             success(responseArray);
+         } else {
+             UIAlertView* alert = [[UIAlertView alloc]initWithTitle:@"Error"
+                                                            message:@"Unexpected response"
+                                                           delegate:nil cancelButtonTitle:@"YEEEAH"
+                                                  otherButtonTitles:nil, nil];
+             [alert show];
+             success(nil);
+         }
+         
+     }
+     failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+         failure(error);
+     }];
 }
 
+
 @end
+
+
+
+
