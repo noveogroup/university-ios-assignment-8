@@ -73,4 +73,31 @@ static NSString *const kBaseAPIURL = @"https://api.github.com";
         }];
 }
 
+- (void) getRepositories4User:(NSString *)userName
+                      success:(void (^)(NSArray *))success
+                      failure:(void (^)(NSError *))failure
+{
+    NSString *requestString = [NSString stringWithFormat:@"users/%@/repos", userName];
+    
+    [self.requestManager GET:requestString
+                  parameters:nil
+                     success:^(AFHTTPRequestOperation *operation, NSArray *responseObject){
+                         success(responseObject);
+                     }
+                     failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+                         failure(error);
+                     }
+     ];
+}
+
+
+
+
+
+
+
+
+
+
+
 @end

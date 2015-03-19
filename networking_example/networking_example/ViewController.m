@@ -8,6 +8,8 @@
 @property (strong, nonatomic) IBOutlet UIImageView *imageView;
 @property (strong, nonatomic) IBOutlet UIButton *button;
 @property (strong, nonatomic) IBOutlet UITextField *textField;
+
+@property (strong, nonatomic) NSArray *userRepoArray;
 @end
 
 
@@ -17,6 +19,7 @@
 {
     [super viewDidLoad];
     self.controller = [GITHUBAPIController sharedController];
+    self.userRepoArray = [NSArray array];
 }
 
 - (BOOL)textFieldShouldReturn:(UITextField *)textField
@@ -37,6 +40,9 @@
     i.center = grayView.center;
     [i startAnimating];
     [grayView addSubview:i];
+    
+    [self showUserRepositories];
+    
 }
 
 - (void)showImage
@@ -55,6 +61,24 @@
      failure:^(NSError *error) {
          NSLog(@"Error: %@", error);
      }];
+}
+
+- (void)showUserRepositories
+{
+    NSString *userName = self.textField.text;
+    
+    typeof(self) __weak wself = self;
+    
+    [self.controller getRepositories4User:userName
+                                  success:^(NSArray *responseArray){
+                                     wself.userRepoArray = responseArray;
+                                      NSLog([NSString stringWithFormat:@"%@",wself.userRepoArray[0][@"name"]]);
+                                 }
+                                  failure:^(NSError *error) {
+                                    
+                                 }];
+
+    
 }
 
 @end
