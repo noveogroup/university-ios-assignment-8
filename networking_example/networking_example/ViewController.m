@@ -1,6 +1,7 @@
 #import "ViewController.h"
 #import "GITHUBAPIController.h"
 #import <UIImageView+AFNetworking.h>
+#import "ReposVC.h"
 
 
 @interface ViewController () <UITextFieldDelegate>
@@ -46,6 +47,7 @@
     [self.controller getRepositoriesForUser:self.textField.text success:^(NSArray *repositories){
         
         wself.repositories = repositories;
+        [self performSegueWithIdentifier:@"toRepos" sender:self];
         [grayView removeFromSuperview];
         
     }failure:^(NSError *error) {
@@ -74,6 +76,12 @@
      failure:^(NSError *error) {
          NSLog(@"Error: %@", error);
      }];
+}
+
+- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
+{
+    ReposVC *repoVC = segue.destinationViewController;
+    repoVC.repositories = self.repositories;
 }
 
 @end

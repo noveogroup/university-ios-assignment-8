@@ -84,7 +84,8 @@ static NSString *const kBaseAPIURL = @"https://api.github.com";
      GET:requestString
      parameters:nil
      success:^(AFHTTPRequestOperation *operation, id responseObject) {
-         success(responseObject);
+         NSArray *repos = responseObject;
+         success(repos);
          
      }
      failure:^(AFHTTPRequestOperation *operation, NSError *error) {
