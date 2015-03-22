@@ -82,7 +82,18 @@ static NSString *const kBaseAPIURL = @"https://api.github.com";
     [self.requestManager GET:requestString
                   parameters:nil
                      success:^(AFHTTPRequestOperation *operation, NSArray *responseObject){
-                         success(responseObject);
+                         
+                         if ([responseObject isKindOfClass:[NSArray class]]){
+                             success(responseObject);
+                         }
+                         else{
+                             UIAlertView *alert = [[UIAlertView alloc]initWithTitle:@"Error"
+                                                                            message:@"Unexpected response"
+                                                                           delegate:nil cancelButtonTitle:@"Cancel"
+                                                                  otherButtonTitles:nil, nil];
+                             [alert show];
+                             success(nil);
+                         }
                      }
                      failure:^(AFHTTPRequestOperation *operation, NSError *error) {
                          failure(error);
@@ -90,6 +101,34 @@ static NSString *const kBaseAPIURL = @"https://api.github.com";
      ];
 }
 
+-(void) getCommitsByRepoName:(NSString *)repoName
+                    userName:(NSString *)userName
+                     success:(void (^)(NSArray *))success
+                     failure:(void (^)(NSError *))failure
+{
+    NSString *requestString = [NSString stringWithFormat:@"repos/%@/%@/commits", userName, repoName];
+    
+    [self.requestManager GET:requestString
+                  parameters:nil
+                     success:^(AFHTTPRequestOperation *operation, NSArray *responseObject){
+                         
+                         if ([responseObject isKindOfClass:[NSArray class]]){
+                             success(responseObject);
+                         }
+                         else{
+                             UIAlertView* alert = [[UIAlertView alloc]initWithTitle:@"Error"
+                                                                            message:@"Unexpected response"
+                                                                           delegate:nil cancelButtonTitle:@"Cancel"
+                                                                  otherButtonTitles:nil, nil];
+                             [alert show];
+                             success(nil);
+                         }
+                     }
+                     failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+                         failure(error);
+                     }
+     ];
+}
 
 
 
