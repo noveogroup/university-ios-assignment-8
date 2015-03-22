@@ -8,6 +8,7 @@
 @property (strong, nonatomic) IBOutlet UIImageView *imageView;
 @property (strong, nonatomic) IBOutlet UIButton *button;
 @property (strong, nonatomic) IBOutlet UITextField *textField;
+@property (strong, nonatomic) NSArray *repositories;
 @end
 
 
@@ -37,6 +38,24 @@
     i.center = grayView.center;
     [i startAnimating];
     [grayView addSubview:i];
+    [self.textField resignFirstResponder];
+    
+    typeof(self) __weak wself = self;
+
+    
+    [self.controller getRepositoriesForUser:self.textField.text success:^(NSArray *repositories){
+        
+        wself.repositories = repositories;
+        [grayView removeFromSuperview];
+        
+    }failure:^(NSError *error) {
+        UIAlertView* alert = [[UIAlertView alloc]initWithTitle:@"Error"
+                                                       message:[NSString stringWithFormat:@"Incorrect user name: %@",self.textField.text]
+                                                      delegate:nil cancelButtonTitle:@"Ok"
+                                             otherButtonTitles:nil, nil];
+        [alert show];
+        [grayView removeFromSuperview];
+    }];
 }
 
 - (void)showImage
