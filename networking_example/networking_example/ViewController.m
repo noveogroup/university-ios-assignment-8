@@ -36,13 +36,17 @@ static NSString *const kRepositoryCommitsCount = @"commits_count";
 
 - (BOOL)textFieldShouldReturn:(UITextField *)textField
 {
-    [self getRepositoriesAndShow];
+    if (self.textField.text.length > 0) {
+        [self getRepositoriesAndShow];
+    }
     return NO;
 }
 
 - (IBAction)buttonTapped:(UIButton *)sender
 {
-    [self getRepositoriesAndShow];
+    if (self.textField.text.length > 0) {
+        [self getRepositoriesAndShow];
+    }
 }
 
 - (void)showImage
