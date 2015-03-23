@@ -12,4 +12,8 @@
                        success:(void(^)(NSArray *))success
                        failure:(void(^)(NSError *))failure;
 
+
+-(void)getCommitsforRepository:(NSString *)repositoryName user:(NSString *)userName
+                       success:(void (^)(NSArray *))success
+                       failure:(void (^)(NSError *))failure;
 @end

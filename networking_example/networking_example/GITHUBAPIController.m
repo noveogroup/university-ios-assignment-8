@@ -94,6 +94,28 @@ static NSString *const kBaseAPIURL = @"https://api.github.com";
 }
 
 
+-(void)getCommitsforRepository:(NSString *)repositoryName user:(NSString *)userName
+                                           success:(void (^)(NSArray *))success
+                                           failure:(void (^)(NSError *))failure
+{
+    NSString *requestString = [NSString
+                               stringWithFormat:@"repos/%@/%@/commits", userName, repositoryName];
+    
+    [self.requestManager
+        GET:requestString
+        parameters:nil
+        success:^(AFHTTPRequestOperation *operation, id responseObject) {
+                    NSArray* commits = responseObject;
+                    success(commits);
+            }
+            failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+                failure(error);
+            }];
+    
+}
+
+
+
 
 
 @end
