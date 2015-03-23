@@ -1,6 +1,7 @@
 #import "ViewController.h"
 #import "GITHUBAPIController.h"
 #import <UIImageView+AFNetworking.h>
+#import "RepositoriesListVC.h"
 
 
 @interface ViewController () <UITextFieldDelegate>
@@ -70,6 +71,9 @@
      getRepositoriesForUser:userName
      success:^(NSArray *repositories) {
          NSLog(@"Repositories: %@", repositories);
+         RepositoriesListVC *repositoriesListVC = [[RepositoriesListVC alloc]
+             initWithRepositories:repositories];
+         [wself.navigationController pushViewController:repositoriesListVC animated:YES];
          [wself hideActivityModalView];
      }
      failure:^(NSError *error) {
