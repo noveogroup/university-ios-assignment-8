@@ -23,6 +23,8 @@
 		AEB73B5B18E9979F0021BCCD /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = AEB73B5918E9979F0021BCCD /* InfoPlist.strings */; };
 		AEB73B5D18E9979F0021BCCD /* networking_exampleTests.m in Sources */ = {isa = PBXBuildFile; fileRef = AEB73B5C18E9979F0021BCCD /* networking_exampleTests.m */; };
 		AEB73B6818E99BEB0021BCCD /* GITHUBAPIController.m in Sources */ = {isa = PBXBuildFile; fileRef = AEB73B6718E99BEB0021BCCD /* GITHUBAPIController.m */; };
+		B5A5FB7D1AC071A800013AE2 /* Repository.m in Sources */ = {isa = PBXBuildFile; fileRef = B5A5FB7C1AC071A800013AE2 /* Repository.m */; };
+		B5ED482D1AC02EC90081A3DD /* RepositoriesListVC.m in Sources */ = {isa = PBXBuildFile; fileRef = B5ED482C1AC02EC90081A3DD /* RepositoriesListVC.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -59,6 +61,10 @@
 		AEB73B5C18E9979F0021BCCD /* networking_exampleTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = networking_exampleTests.m; sourceTree = "<group>"; };
 		AEB73B6618E99BEB0021BCCD /* GITHUBAPIController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GITHUBAPIController.h; sourceTree = "<group>"; };
 		AEB73B6718E99BEB0021BCCD /* GITHUBAPIController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GITHUBAPIController.m; sourceTree = "<group>"; };
+		B5A5FB7B1AC071A800013AE2 /* Repository.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Repository.h; sourceTree = "<group>"; };
+		B5A5FB7C1AC071A800013AE2 /* Repository.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Repository.m; sourceTree = "<group>"; };
+		B5ED482B1AC02EC90081A3DD /* RepositoriesListVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RepositoriesListVC.h; sourceTree = "<group>"; };
+		B5ED482C1AC02EC90081A3DD /* RepositoriesListVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RepositoriesListVC.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -126,6 +132,10 @@
 				AEB73B4318E9979F0021BCCD /* Main.storyboard */,
 				AEB73B4618E9979F0021BCCD /* ViewController.h */,
 				AEB73B4718E9979F0021BCCD /* ViewController.m */,
+				B5ED482B1AC02EC90081A3DD /* RepositoriesListVC.h */,
+				B5ED482C1AC02EC90081A3DD /* RepositoriesListVC.m */,
+				B5A5FB7B1AC071A800013AE2 /* Repository.h */,
+				B5A5FB7C1AC071A800013AE2 /* Repository.m */,
 				AEB73B4918E9979F0021BCCD /* Images.xcassets */,
 				AEB73B3818E9979F0021BCCD /* Supporting Files */,
 				AEB73B6618E99BEB0021BCCD /* GITHUBAPIController.h */,
@@ -296,7 +306,9 @@
 			buildActionMask = 2147483647;
 			files = (
 				AEB73B4818E9979F0021BCCD /* ViewController.m in Sources */,
+				B5A5FB7D1AC071A800013AE2 /* Repository.m in Sources */,
 				AEB73B6818E99BEB0021BCCD /* GITHUBAPIController.m in Sources */,
+				B5ED482D1AC02EC90081A3DD /* RepositoriesListVC.m in Sources */,
 				AEB73B4218E9979F0021BCCD /* AppDelegate.m in Sources */,
 				AEB73B3E18E9979F0021BCCD /* main.m in Sources */,
 			);
