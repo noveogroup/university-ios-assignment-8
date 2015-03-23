@@ -1,5 +1,6 @@
 
 #import "ReposVC.h"
+#import "GITHUBAPIController.h"
 
 @interface ReposVC () <UITableViewDataSource, UITableViewDelegate>
 
@@ -24,10 +25,18 @@
     UITableViewCell *cell =
     [tableView dequeueReusableCellWithIdentifier:REUSABLE_CELL_ID];
     if (!cell) {
-        cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleValue1
+        cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleSubtitle
                                                reuseIdentifier:REUSABLE_CELL_ID];
     }
     cell.textLabel.text = [NSString stringWithFormat:@"%@", self.repositories[indexPath.row][@"name"]];
+    [[GITHUBAPIController sharedController]getCommitsforRepository:cell.textLabel.text user:self.userName success:^(NSArray *commits) {
+        
+        cell.detailTextLabel.text = [NSString stringWithFormat:@"commits - %lu", (unsigned long)[commits count]];
+        
+    }failure:^(NSError *error) {
+        NSLog(@"%@",error);
+    }];
+    
     return cell;
     
 }
