@@ -1,8 +1,8 @@
 #import "RepositoriesListVC.h"
+#import "Repository.h"
 
 
 static NSString *const reuseId = @"ReuseId";
-static NSString *const kRepositoryName = @"name";
 
 @interface RepositoriesListVC ()
 @property (strong, nonatomic) NSArray *repositories;
@@ -20,12 +20,6 @@ static NSString *const kRepositoryName = @"name";
     return self;
 }
 
-- (void)viewDidLoad
-{
-    [super viewDidLoad];
-    [self.tableView registerClass:[UITableViewCell class] forCellReuseIdentifier:reuseId];
-}
-
 #pragma mark - Table view data source
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
@@ -36,12 +30,16 @@ static NSString *const kRepositoryName = @"name";
 - (UITableViewCell *)tableView:(UITableView *)tableView
     cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    NSDictionary *repository = self.repositories[indexPath.row];
+    Repository *repository = self.repositories[indexPath.row];
     
-    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:reuseId
-        forIndexPath:indexPath];
-    cell.textLabel.text = repository[kRepositoryName];
-    
+    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:reuseId];
+    if (!cell) {
+        cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleSubtitle
+            reuseIdentifier:reuseId];
+    }
+    cell.textLabel.text = repository.name;
+    cell.detailTextLabel.text = [NSString stringWithFormat:@"commits count = %ld",
+        repository.commitsCount];
     return cell;
 }
 

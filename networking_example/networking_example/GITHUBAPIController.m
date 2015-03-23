@@ -56,6 +56,23 @@ static NSString *const kBaseAPIURL = @"https://api.github.com";
     
 }
 
+- (void)getCommitsForRepositoryWithFullName:(NSString *)repositoryFullName
+    success:(void (^)(NSArray *))success
+    failure:(void (^)(NSError *))failure
+{
+    NSString *requestString = [NSString stringWithFormat:@"repos/%@/commits", repositoryFullName];
+    
+    [self.requestManager
+        GET:requestString
+        parameters:nil
+        success:^(AFHTTPRequestOperation *operation, id responseObject) {
+            success(responseObject);
+        }
+        failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+            failure(error);
+        }];
+}
+
 #pragma mark - Public methods
 
 - (void)getAvatarForUser:(NSString *)userName
@@ -86,6 +103,19 @@ static NSString *const kBaseAPIURL = @"https://api.github.com";
             success(responseObject);
         }
         failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+            failure(error);
+        }];
+}
+
+- (void)getCommitsCountForRepositoryWithFullName:(NSString *)repositoryFullName
+    success:(void (^)(NSNumber *))success
+    failure:(void (^)(NSError *))failure
+{
+    [self getCommitsForRepositoryWithFullName:repositoryFullName
+        success:^(NSArray *commits) {
+            success(@(commits.count));
+        }
+        failure:^(NSError *error) {
             failure(error);
         }];
 }
