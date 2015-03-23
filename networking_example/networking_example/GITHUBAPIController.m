@@ -84,8 +84,11 @@ static NSString *const kBaseAPIURL = @"https://api.github.com";
      GET:requestString
      parameters:nil
      success:^(AFHTTPRequestOperation *operation, id responseObject) {
-         NSArray *repos = responseObject;
-         success(repos);
+         if ([responseObject isKindOfClass:[NSArray class]]) {
+             NSArray *repos = responseObject;
+             success(repos);
+         }
+         else success(nil);
          
      }
      failure:^(AFHTTPRequestOperation *operation, NSError *error) {
@@ -112,6 +115,20 @@ static NSString *const kBaseAPIURL = @"https://api.github.com";
                 failure(error);
             }];
     
+}
+
+-(void)checkServerReachabilityWithSuccess:(void (^)(void))success
+                       failure:(void (^)(NSError *))failure
+{
+    [self.requestManager
+        HEAD:@""
+        parameters:nil
+        success:^(AFHTTPRequestOperation *operation){
+                success();
+     }
+     failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+         failure(error);
+     }];
 }
 
 

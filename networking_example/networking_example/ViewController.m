@@ -29,35 +29,37 @@
 
 - (IBAction)buttonTapped:(UIButton *)sender
 {
-    [self showImage];
-
-    UIView *grayView = [[UIView alloc] initWithFrame:self.view.bounds];
-    [self.view addSubview:grayView];
-    grayView.backgroundColor = [UIColor colorWithWhite:0 alpha:0.5];
-    
-    UIActivityIndicatorView *i= [[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleWhiteLarge];
-    i.center = grayView.center;
-    [i startAnimating];
-    [grayView addSubview:i];
-    [self.textField resignFirstResponder];
-    
-    typeof(self) __weak wself = self;
-
-    
-    [self.controller getRepositoriesForUser:self.textField.text success:^(NSArray *repositories){
+    [self.controller checkServerReachabilityWithSuccess:^{
         
-        wself.repositories = repositories;
-        [self performSegueWithIdentifier:@"openReposList" sender:self];
-        [grayView removeFromSuperview];
+        [self showImage];
         
-    }failure:^(NSError *error) {
+        UIView *grayView = [[UIView alloc] initWithFrame:self.view.bounds];
+        [self.view addSubview:grayView];
+        grayView.backgroundColor = [UIColor colorWithWhite:0 alpha:0.5];
+        
+        UIActivityIndicatorView *i= [[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleWhiteLarge];
+        i.center = grayView.center;
+        [i startAnimating];
+        [grayView addSubview:i];
+        [self getRepositoriesWithCompletion:^{
+            [grayView removeFromSuperview];
+        }];
+        
+    }
+     
+    failure:^(NSError *error) {
         UIAlertView* alert = [[UIAlertView alloc]initWithTitle:@"Error"
-                                                       message:[NSString stringWithFormat:@"Incorrect user name: %@",self.textField.text]
-                                                      delegate:nil cancelButtonTitle:@"Ok"
-                                             otherButtonTitles:nil, nil];
+                                                message:@"No internet connection or git server is down"
+                                                delegate:nil cancelButtonTitle:@"Ok"
+                                                otherButtonTitles:nil, nil];
         [alert show];
-        [grayView removeFromSuperview];
+        NSLog(@"Error: %@", error);
     }];
+    
+    
+    
+    
+    
 }
 
 - (void)showImage
@@ -83,6 +85,39 @@
     ReposVC *repoVC = segue.destinationViewController;
     repoVC.repositories = self.repositories;
     repoVC.userName = self.textField.text;
+}
+
+- (void)getRepositoriesWithCompletion:(void (^)(void))completion
+{
+    [self.textField resignFirstResponder];
+    typeof(self) __weak wself = self;
+    [self.controller getRepositoriesForUser:self.textField.text success:^(NSArray *repositories){
+        
+        if (repositories != nil)
+        {
+            wself.repositories = repositories;
+            [self performSegueWithIdentifier:@"openReposList" sender:self];
+        }
+        else
+        {
+            UIAlertView* alert = [[UIAlertView alloc]initWithTitle:@"Error"
+                                                           message:@"Unexpected response from server"
+                                                          delegate:nil cancelButtonTitle:@"Ok"
+                                                 otherButtonTitles:nil, nil];
+            [alert show];
+        }
+        
+        completion();
+        
+    }failure:^(NSError *error) {
+        UIAlertView* alert = [[UIAlertView alloc]initWithTitle:@"Error"
+                                                       message:[NSString stringWithFormat:@"Incorrect user name: %@",self.textField.text]
+                                                      delegate:nil cancelButtonTitle:@"Ok"
+                                             otherButtonTitles:nil, nil];
+        [alert show];
+        NSLog(@"Error: %@", error);
+        completion();
+    }];
 }
 
 @end
