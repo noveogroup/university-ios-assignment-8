@@ -1,6 +1,7 @@
 #import "ViewController.h"
 #import "GITHUBAPIController.h"
 #import <UIImageView+AFNetworking.h>
+#import <AFNetworking/AFNetworkReachabilityManager.h>
 
 
 @interface ViewController () <UITextFieldDelegate, UITableViewDataSource, UITableViewDelegate>
@@ -11,7 +12,7 @@
 @property (weak, nonatomic) IBOutlet UITableView *tableView;
 
 @property (copy, nonatomic) NSArray *userRepoArray;
-@property (copy, nonatomic) NSDictionary *repoCommitCount;
+@property (copy, nonatomic) NSMutableDictionary *repoCommitCount;
 
 -(void) loadRepoInfoWithCompletion:(void(^)(NSError*)) completion;
 @end
@@ -30,10 +31,10 @@
     return userRepoArray_;
 }
 
--(NSDictionary*) repoCommitCount
+-(NSMutableDictionary*) repoCommitCount
 {
     if(!repoCommitCount_)
-        repoCommitCount_ = [[NSDictionary alloc] init];
+        repoCommitCount_ = [[NSMutableDictionary alloc] init];
     
     return repoCommitCount_;
 }
@@ -52,24 +53,37 @@
 
 - (IBAction)buttonTapped:(UIButton *)sender
 {
-    [self showImage];
+    AFNetworkReachabilityManager *rm = [AFNetworkReachabilityManager sharedManager];
+    if (![rm isReachable])
+    {
+        [self showImage];
     
-    UIView *grayView = [[UIView alloc] initWithFrame:self.view.bounds];
-    [self.view addSubview:grayView];
-    grayView.backgroundColor = [UIColor colorWithWhite:0 alpha:0.5];
+        UIView *grayView = [[UIView alloc] initWithFrame:self.view.bounds];
+        [self.view addSubview:grayView];
+        grayView.backgroundColor = [UIColor colorWithWhite:0 alpha:0.5];
     
-    UIActivityIndicatorView *i= [[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleWhiteLarge];
-    i.center = grayView.center;
-    [i startAnimating];
-    [grayView addSubview:i];
+        UIActivityIndicatorView *i= [[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleWhiteLarge];
+        i.center = grayView.center;
+        [i startAnimating];
+        [grayView addSubview:i];
     
-    [self loadRepoInfoWithCompletion:^(NSError *error) {
+        [self loadRepoInfoWithCompletion:^(NSError *error) {
         
-        [i stopAnimating];
-        [grayView removeFromSuperview];
-        if (!error)
-            [self.tableView reloadData];
-    }];
+            [i stopAnimating];
+            [grayView removeFromSuperview];
+            if (!error)
+                [self.tableView reloadData];
+        }];
+    }
+    else
+    {
+        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Error"
+                                                        message:@"Network is not working!"
+                                                       delegate:nil
+                                              cancelButtonTitle:@"Cancel"
+                                              otherButtonTitles:nil, nil];
+        [alert show];
+    }
 }
 
 
@@ -80,27 +94,26 @@
     
     [self.controller getRepositories4User:userName
                                   success:^(NSArray *responseArray){
+                                      
                                       wself.userRepoArray = responseArray;
-                                      /*
-                                          for(NSDictionary *repo in wself.userRepoArray){
-                                              
-                                              [self.controller getCommitsByRepoName:[NSString stringWithFormat:@"%@",repo[@"name"]]
-                                                                           userName:userName
-                                                                            success:^(NSArray *responseArray) {
-                                                                                
-                                                                                if ([responseArray count] != 0){
-                                                                                    NSLog([NSString stringWithFormat:@"%@ - %lu",repo[@"name"], [responseArray count]]);
-                                       
-                                                                                     [wself.repoCommitCount setValue:@([responseArray count])
-                                                                                     forKey:repo[@"name"]];
-                                                                                }
-                                                                                
-                                                                            }
-                                                                            failure:^(NSError *error) {
-                                                                            }];
+                                      NSInteger __block endFlag = [responseArray count];
+                                      for(NSDictionary *repo in wself.userRepoArray){
+                                          
+                                          [self.controller getCommitsByRepoName:[NSString stringWithFormat:@"%@",repo[@"name"]]
+                                                                       userName:userName
+                                                                        success:^(NSArray *responseArray){
+                                                                            
+                                                                            endFlag--;
+                                                                            [wself.repoCommitCount setObject:[NSString stringWithFormat:@"%lu",[responseArray count]]
+                                                                                                      forKey:repo[@"name"]];
+                                                                            
+                                                                            if (endFlag == 0)
+                                                                                completion(nil);
+                                                                        }
+                                                                        failure:^(NSError *error){
+                                                                            completion(error);
+                                                                        }];
                                           }
-                                        */
-                                      completion(nil);
                                   }
                                   failure:^(NSError *error) {
                                       
@@ -112,8 +125,6 @@
                                       [alert show];
                                       completion(error);
                                   }];
-    
-    
 }
 
 - (void)showImage
@@ -169,7 +180,11 @@
                                                reuseIdentifier:REUSABLE_CELL_ID];
     }
     
-    tableViewCell.textLabel.text = [NSString stringWithFormat:@"%@",self.userRepoArray[indexPath.row][@"name"]];
+    NSString *const repoName = [NSString stringWithFormat:@"%@",self.userRepoArray[indexPath.row][@"name"]];
+    
+    tableViewCell.textLabel.text = repoName;
+    tableViewCell.detailTextLabel.text = [NSString stringWithFormat:@"%@ - commits", [self.repoCommitCount objectForKey:repoName]];
+    
     
     return tableViewCell;
     

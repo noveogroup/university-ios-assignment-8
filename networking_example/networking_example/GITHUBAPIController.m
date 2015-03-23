@@ -1,7 +1,6 @@
 #import "GITHUBAPIController.h"
 #import <AFNetworking/AFNetworking.h>
 
-
 static NSString *const kBaseAPIURL = @"https://api.github.com";
 
 
@@ -83,7 +82,7 @@ static NSString *const kBaseAPIURL = @"https://api.github.com";
                   parameters:nil
                      success:^(AFHTTPRequestOperation *operation, NSArray *responseObject){
                          
-                         if ([responseObject isKindOfClass:[NSArray class]]){
+                         if ( responseObject != nil && [responseObject isKindOfClass:[NSArray class]]){
                              success(responseObject);
                          }
                          else{
@@ -112,7 +111,7 @@ static NSString *const kBaseAPIURL = @"https://api.github.com";
                   parameters:nil
                      success:^(AFHTTPRequestOperation *operation, NSArray *responseObject){
                          
-                         if ([responseObject isKindOfClass:[NSArray class]]){
+                         if ( responseObject != nil && [responseObject isKindOfClass:[NSArray class]]){
                              success(responseObject);
                          }
                          else{
