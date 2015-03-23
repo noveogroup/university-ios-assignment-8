@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		51404CE361ED4826A0BDE3C4 /* libPods.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 5C2F1CEAB4AE426A8406E4A4 /* libPods.a */; };
+		A81F6E961ABEFC9C002A96EB /* ReposVC.m in Sources */ = {isa = PBXBuildFile; fileRef = A81F6E951ABEFC9C002A96EB /* ReposVC.m */; };
 		AEB73B3218E9979F0021BCCD /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AEB73B3118E9979F0021BCCD /* Foundation.framework */; };
 		AEB73B3418E9979F0021BCCD /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AEB73B3318E9979F0021BCCD /* CoreGraphics.framework */; };
 		AEB73B3618E9979F0021BCCD /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AEB73B3518E9979F0021BCCD /* UIKit.framework */; };
@@ -38,6 +39,8 @@
 /* Begin PBXFileReference section */
 		5C2F1CEAB4AE426A8406E4A4 /* libPods.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libPods.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		935B38C7B58C4C7BA7729C92 /* Pods.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.xcconfig; path = Pods/Pods.xcconfig; sourceTree = "<group>"; };
+		A81F6E941ABEFC9C002A96EB /* ReposVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ReposVC.h; sourceTree = "<group>"; };
+		A81F6E951ABEFC9C002A96EB /* ReposVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ReposVC.m; sourceTree = "<group>"; };
 		AEB73B2E18E9979F0021BCCD /* networking_example.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = networking_example.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		AEB73B3118E9979F0021BCCD /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		AEB73B3318E9979F0021BCCD /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
@@ -126,6 +129,8 @@
 				AEB73B4318E9979F0021BCCD /* Main.storyboard */,
 				AEB73B4618E9979F0021BCCD /* ViewController.h */,
 				AEB73B4718E9979F0021BCCD /* ViewController.m */,
+				A81F6E941ABEFC9C002A96EB /* ReposVC.h */,
+				A81F6E951ABEFC9C002A96EB /* ReposVC.m */,
 				AEB73B4918E9979F0021BCCD /* Images.xcassets */,
 				AEB73B3818E9979F0021BCCD /* Supporting Files */,
 				AEB73B6618E99BEB0021BCCD /* GITHUBAPIController.h */,
@@ -299,6 +304,7 @@
 				AEB73B6818E99BEB0021BCCD /* GITHUBAPIController.m in Sources */,
 				AEB73B4218E9979F0021BCCD /* AppDelegate.m in Sources */,
 				AEB73B3E18E9979F0021BCCD /* main.m in Sources */,
+				A81F6E961ABEFC9C002A96EB /* ReposVC.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

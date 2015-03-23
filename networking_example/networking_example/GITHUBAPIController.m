@@ -73,4 +73,66 @@ static NSString *const kBaseAPIURL = @"https://api.github.com";
         }];
 }
 
+- (void)getRepositoriesForUser:(NSString *)userName
+                       success:(void (^)(NSArray *))success
+                       failure:(void (^)(NSError *))failure
+{
+    
+    NSString *requestString = [NSString
+                               stringWithFormat:@"users/%@/repos", userName];
+    [self.requestManager
+     GET:requestString
+     parameters:nil
+     success:^(AFHTTPRequestOperation *operation, id responseObject) {
+         if ([responseObject isKindOfClass:[NSArray class]]) {
+             NSArray *repos = responseObject;
+             success(repos);
+         }
+         else success(nil);
+         
+     }
+     failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+         failure(error);
+     }];
+}
+
+
+-(void)getCommitsforRepository:(NSString *)repositoryName user:(NSString *)userName
+                                           success:(void (^)(NSArray *))success
+                                           failure:(void (^)(NSError *))failure
+{
+    NSString *requestString = [NSString
+                               stringWithFormat:@"repos/%@/%@/commits", userName, repositoryName];
+    
+    [self.requestManager
+        GET:requestString
+        parameters:nil
+        success:^(AFHTTPRequestOperation *operation, id responseObject) {
+                    NSArray* commits = responseObject;
+                    success(commits);
+            }
+            failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+                failure(error);
+            }];
+    
+}
+
+-(void)checkServerReachabilityWithSuccess:(void (^)(void))success
+                       failure:(void (^)(NSError *))failure
+{
+    [self.requestManager
+        HEAD:@""
+        parameters:nil
+        success:^(AFHTTPRequestOperation *operation){
+                success();
+     }
+     failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+         failure(error);
+     }];
+}
+
+
+
+
+
 @end
