@@ -48,7 +48,7 @@
                         <outlet property="button" destination="pXs-cj-7jc" id="N08-f0-5e1"/>
                         <outlet property="imageView" destination="9uw-Dh-v7d" id="Dox-Tn-LGC"/>
                         <outlet property="textField" destination="NVq-qk-8VH" id="pB5-FA-gaa"/>
-                        <segue destination="IHa-7p-4xs" kind="push" identifier="toRepos" id="QSA-wT-zf4"/>
+                        <segue destination="IHa-7p-4xs" kind="push" identifier="openReposList" id="QSA-wT-zf4"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="x5A-6p-PRh" sceneMemberID="firstResponder"/>

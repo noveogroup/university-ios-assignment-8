@@ -47,7 +47,7 @@
     [self.controller getRepositoriesForUser:self.textField.text success:^(NSArray *repositories){
         
         wself.repositories = repositories;
-        [self performSegueWithIdentifier:@"toRepos" sender:self];
+        [self performSegueWithIdentifier:@"openReposList" sender:self];
         [grayView removeFromSuperview];
         
     }failure:^(NSError *error) {
@@ -82,6 +82,7 @@
 {
     ReposVC *repoVC = segue.destinationViewController;
     repoVC.repositories = self.repositories;
+    repoVC.userName = self.textField.text;
 }
 
 @end
