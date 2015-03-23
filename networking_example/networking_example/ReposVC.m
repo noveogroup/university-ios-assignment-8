@@ -10,6 +10,9 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+    if (self.navigationItem) {
+        self.navigationItem.title = self.userName;
+    }
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
