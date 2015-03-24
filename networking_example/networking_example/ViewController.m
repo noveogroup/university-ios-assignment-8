@@ -53,8 +53,12 @@
 
 - (IBAction)buttonTapped:(UIButton *)sender
 {
-    AFNetworkReachabilityManager *rm = [AFNetworkReachabilityManager sharedManager];
-    if (![rm isReachable])
+    Reachability *reachability = [Reachability reachabilityForInternetConnection];
+    [reachability startNotifier];
+    
+    NetworkStatus networkStatus = [reachability currentReachabilityStatus];
+
+    if ( networkStatus != NotReachable )
     {
         [self showImage];
     
@@ -84,6 +88,8 @@
                                               otherButtonTitles:nil, nil];
         [alert show];
     }
+    
+    [reachability stopNotifier];
 }
 
 
