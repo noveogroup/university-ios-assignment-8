@@ -53,9 +53,8 @@
 
 - (IBAction)buttonTapped:(UIButton *)sender
 {
-    Reachability *reachability = [Reachability reachabilityForInternetConnection];
-    [reachability startNotifier];
-    
+    Reachability *reachability = [Reachability reachabilityWithHostName:@"www.google.com"];
+
     NetworkStatus networkStatus = [reachability currentReachabilityStatus];
 
     if ( networkStatus != NotReachable )
@@ -88,8 +87,6 @@
                                               otherButtonTitles:nil, nil];
         [alert show];
     }
-    
-    [reachability stopNotifier];
 }
 
 
