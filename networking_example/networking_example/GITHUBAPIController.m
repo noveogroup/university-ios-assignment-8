@@ -1,7 +1,6 @@
 #import "GITHUBAPIController.h"
 #import <AFNetworking/AFNetworking.h>
 
-
 static NSString *const kBaseAPIURL = @"https://api.github.com";
 
 
@@ -72,5 +71,71 @@ static NSString *const kBaseAPIURL = @"https://api.github.com";
             failure(error);
         }];
 }
+
+- (void) getRepositories4User:(NSString *)userName
+                      success:(void (^)(NSArray *))success
+                      failure:(void (^)(NSError *))failure
+{
+    NSString *requestString = [NSString stringWithFormat:@"users/%@/repos", userName];
+    
+    [self.requestManager GET:requestString
+                  parameters:nil
+                     success:^(AFHTTPRequestOperation *operation, NSArray *responseObject){
+                         
+                         if ( responseObject != nil && [responseObject isKindOfClass:[NSArray class]]){
+                             success(responseObject);
+                         }
+                         else{
+                             UIAlertView *alert = [[UIAlertView alloc]initWithTitle:@"Error"
+                                                                            message:@"Unexpected response"
+                                                                           delegate:nil cancelButtonTitle:@"Cancel"
+                                                                  otherButtonTitles:nil, nil];
+                             [alert show];
+                             success(nil);
+                         }
+                     }
+                     failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+                         failure(error);
+                     }
+     ];
+}
+
+-(void) getCommitsByRepoName:(NSString *)repoName
+                    userName:(NSString *)userName
+                     success:(void (^)(NSArray *))success
+                     failure:(void (^)(NSError *))failure
+{
+    NSString *requestString = [NSString stringWithFormat:@"repos/%@/%@/commits", userName, repoName];
+    
+    [self.requestManager GET:requestString
+                  parameters:nil
+                     success:^(AFHTTPRequestOperation *operation, NSArray *responseObject){
+                         
+                         if ( responseObject != nil && [responseObject isKindOfClass:[NSArray class]]){
+                             success(responseObject);
+                         }
+                         else{
+                             UIAlertView* alert = [[UIAlertView alloc]initWithTitle:@"Error"
+                                                                            message:@"Unexpected response"
+                                                                           delegate:nil cancelButtonTitle:@"Cancel"
+                                                                  otherButtonTitles:nil, nil];
+                             [alert show];
+                             success(nil);
+                         }
+                     }
+                     failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+                         failure(error);
+                     }
+     ];
+}
+
+
+
+
+
+
+
+
+
 
 @end

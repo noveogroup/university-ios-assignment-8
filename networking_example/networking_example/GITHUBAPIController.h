@@ -8,4 +8,13 @@
     success:(void(^)(NSURL *))success
     failure:(void(^)(NSError *))failure;
 
+-(void)getRepositories4User:(NSString *)userName
+                    success:(void(^)(NSArray *)) success
+                    failure:(void(^)(NSError *)) failure;
+
+-(void)getCommitsByRepoName:(NSString *) repoName
+                   userName:(NSString *) userName
+                    success:(void(^)(NSArray*)) success
+                    failure:(void(^)(NSError*)) failure;
+
 @end

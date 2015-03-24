@@ -37,7 +37,6 @@
 
 /* Begin PBXFileReference section */
 		5C2F1CEAB4AE426A8406E4A4 /* libPods.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libPods.a; sourceTree = BUILT_PRODUCTS_DIR; };
-		935B38C7B58C4C7BA7729C92 /* Pods.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.xcconfig; path = Pods/Pods.xcconfig; sourceTree = "<group>"; };
 		AEB73B2E18E9979F0021BCCD /* networking_example.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = networking_example.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		AEB73B3118E9979F0021BCCD /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		AEB73B3318E9979F0021BCCD /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
@@ -59,6 +58,8 @@
 		AEB73B5C18E9979F0021BCCD /* networking_exampleTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = networking_exampleTests.m; sourceTree = "<group>"; };
 		AEB73B6618E99BEB0021BCCD /* GITHUBAPIController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GITHUBAPIController.h; sourceTree = "<group>"; };
 		AEB73B6718E99BEB0021BCCD /* GITHUBAPIController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GITHUBAPIController.m; sourceTree = "<group>"; };
+		D06CA7D859A7876A805DFEB0 /* Pods.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.debug.xcconfig; path = "Pods/Target Support Files/Pods/Pods.debug.xcconfig"; sourceTree = "<group>"; };
+		E466A8643B8474E463018686 /* Pods.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.release.xcconfig; path = "Pods/Target Support Files/Pods/Pods.release.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -86,6 +87,15 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		59EC72E42141C3A00D5CE0D5 /* Pods */ = {
+			isa = PBXGroup;
+			children = (
+				D06CA7D859A7876A805DFEB0 /* Pods.debug.xcconfig */,
+				E466A8643B8474E463018686 /* Pods.release.xcconfig */,
+			);
+			name = Pods;
+			sourceTree = "<group>";
+		};
 		AEB73B2518E9979F0021BCCD = {
 			isa = PBXGroup;
 			children = (
@@ -93,7 +103,7 @@
 				AEB73B5618E9979F0021BCCD /* networking_exampleTests */,
 				AEB73B3018E9979F0021BCCD /* Frameworks */,
 				AEB73B2F18E9979F0021BCCD /* Products */,
-				935B38C7B58C4C7BA7729C92 /* Pods.xcconfig */,
+				59EC72E42141C3A00D5CE0D5 /* Pods */,
 			);
 			sourceTree = "<group>";
 		};
@@ -270,7 +280,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "\"${SRCROOT}/Pods/Pods-resources.sh\"\n";
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods/Pods-resources.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
 		C6BF5711741E485B8D8DD3B2 /* Check Pods Manifest.lock */ = {
@@ -422,7 +432,7 @@
 		};
 		AEB73B6118E9979F0021BCCD /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 935B38C7B58C4C7BA7729C92 /* Pods.xcconfig */;
+			baseConfigurationReference = D06CA7D859A7876A805DFEB0 /* Pods.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
@@ -436,7 +446,7 @@
 		};
 		AEB73B6218E9979F0021BCCD /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 935B38C7B58C4C7BA7729C92 /* Pods.xcconfig */;
+			baseConfigurationReference = E466A8643B8474E463018686 /* Pods.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
