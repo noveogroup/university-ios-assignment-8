@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+
+<html>
+
+<head>
+	<meta http-equiv="content-type" content="text/html; charset=utf-8" />
+	<title>Noveo Internship</title>
+	<script src="http://code.jquery.com/jquery-latest.min.js"></script>   
+	<script src="remark.js"></script>
+	<link rel="stylesheet" type="text/css" href="LectureSlideshow.css">
+</head>
+
+<body>
+	<script>
+		var slideshow = remark.create({
+				sourceUrl: 'Slideshow.md',
+				ratio: '16:9',
+				navigation: {
+					scroll: true,
+					touch: true,
+					click: false
+				},
+				slideNumberFormat: '%current% / %total%',
+				highlightLanguage: 'objectivec',
+				highlightStyle: 'github'
+			});
+	</script>
+</body>
+
+</html>

@@ -1,0 +1,31 @@
+body {
+	background-image: url(images/RegularPageBG.png);
+	background-repeat: repeat;
+	font-family: 'Lucida Grande', 'Arial';
+}
+
+a {
+	color: #190582;
+	text-decoration: none;
+	font-size: 2em;
+	font-weight: 900;
+}
+
+a:hover {
+	text-decoration: underline;
+}
+
+p {
+	padding: 2em 0 2em 0;
+}
+
+.NoveoLogo {
+	position: absolute;
+	right: 40px;
+	top: 40px;
+}
+
+.TheVeryCenter {
+	padding: 200px 0 0 0;
+	text-align: center;
+}
