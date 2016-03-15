@@ -8,6 +8,8 @@
 
 /* Begin PBXBuildFile section */
 		51404CE361ED4826A0BDE3C4 /* libPods.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 5C2F1CEAB4AE426A8406E4A4 /* libPods.a */; };
+		840E2C051C94100E00FE7E3B /* RepoListTableVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 840E2C041C94100E00FE7E3B /* RepoListTableVC.m */; };
+		840E2C3C1C983DC300FE7E3B /* Repository.m in Sources */ = {isa = PBXBuildFile; fileRef = 840E2C3B1C983DC100FE7E3B /* Repository.m */; };
 		AEB73B3218E9979F0021BCCD /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AEB73B3118E9979F0021BCCD /* Foundation.framework */; };
 		AEB73B3418E9979F0021BCCD /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AEB73B3318E9979F0021BCCD /* CoreGraphics.framework */; };
 		AEB73B3618E9979F0021BCCD /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AEB73B3518E9979F0021BCCD /* UIKit.framework */; };
@@ -37,6 +39,10 @@
 
 /* Begin PBXFileReference section */
 		5C2F1CEAB4AE426A8406E4A4 /* libPods.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libPods.a; sourceTree = BUILT_PRODUCTS_DIR; };
+		840E2C031C94100E00FE7E3B /* RepoListTableVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RepoListTableVC.h; sourceTree = "<group>"; };
+		840E2C041C94100E00FE7E3B /* RepoListTableVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RepoListTableVC.m; sourceTree = "<group>"; };
+		840E2C061C9421FB00FE7E3B /* Repository.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Repository.h; sourceTree = "<group>"; };
+		840E2C3B1C983DC100FE7E3B /* Repository.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Repository.m; sourceTree = "<group>"; };
 		935B38C7B58C4C7BA7729C92 /* Pods.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.xcconfig; path = Pods/Pods.xcconfig; sourceTree = "<group>"; };
 		AEB73B2E18E9979F0021BCCD /* networking_example.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = networking_example.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		AEB73B3118E9979F0021BCCD /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
@@ -121,11 +127,15 @@
 		AEB73B3718E9979F0021BCCD /* networking_example */ = {
 			isa = PBXGroup;
 			children = (
+				840E2C061C9421FB00FE7E3B /* Repository.h */,
+				840E2C3B1C983DC100FE7E3B /* Repository.m */,
 				AEB73B4018E9979F0021BCCD /* AppDelegate.h */,
 				AEB73B4118E9979F0021BCCD /* AppDelegate.m */,
 				AEB73B4318E9979F0021BCCD /* Main.storyboard */,
 				AEB73B4618E9979F0021BCCD /* ViewController.h */,
 				AEB73B4718E9979F0021BCCD /* ViewController.m */,
+				840E2C031C94100E00FE7E3B /* RepoListTableVC.h */,
+				840E2C041C94100E00FE7E3B /* RepoListTableVC.m */,
 				AEB73B4918E9979F0021BCCD /* Images.xcassets */,
 				AEB73B3818E9979F0021BCCD /* Supporting Files */,
 				AEB73B6618E99BEB0021BCCD /* GITHUBAPIController.h */,
@@ -296,6 +306,8 @@
 			buildActionMask = 2147483647;
 			files = (
 				AEB73B4818E9979F0021BCCD /* ViewController.m in Sources */,
+				840E2C3C1C983DC300FE7E3B /* Repository.m in Sources */,
+				840E2C051C94100E00FE7E3B /* RepoListTableVC.m in Sources */,
 				AEB73B6818E99BEB0021BCCD /* GITHUBAPIController.m in Sources */,
 				AEB73B4218E9979F0021BCCD /* AppDelegate.m in Sources */,
 				AEB73B3E18E9979F0021BCCD /* main.m in Sources */,
