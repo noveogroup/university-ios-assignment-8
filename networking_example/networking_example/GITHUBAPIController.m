@@ -6,7 +6,7 @@ static NSString *const kBaseAPIURL = @"https://api.github.com";
 
 
 @interface GITHUBAPIController ()
-@property (strong, nonatomic) AFHTTPRequestOperationManager *requestManager;
+@property (strong, nonatomic) AFHTTPSessionManager *sessionManager;
 @end
 
 
@@ -19,20 +19,21 @@ static NSString *const kBaseAPIURL = @"https://api.github.com";
     self = [super init];
     if (self) {
         NSURL *apiURL = [NSURL URLWithString:kBaseAPIURL];
-        self.requestManager = [[AFHTTPRequestOperationManager alloc]
-            initWithBaseURL:apiURL];
+        _sessionManager = [[AFHTTPSessionManager alloc] initWithBaseURL:apiURL];
     }
+
     return self;
 }
 
 + (instancetype)sharedController
 {
-    static GITHUBAPIController *_instance = nil;
-    if (_instance == nil) {
-        _instance = [[self alloc] init];
-    }
+    static GITHUBAPIController *sharedController = nil;
+    static dispatch_once_t onceToken;
+    dispatch_once(&onceToken, ^{
+        sharedController = [[GITHUBAPIController alloc] init];
+    });
 
-    return _instance;
+    return sharedController;
 }
 
 #pragma mark - Inner requests
@@ -41,16 +42,18 @@ static NSString *const kBaseAPIURL = @"https://api.github.com";
     success:(void (^)(NSDictionary *))success
     failure:(void (^)(NSError *))failure
 {
-    NSString *requestString = [NSString
-        stringWithFormat:@"users/%@", userName];
-    
-    [self.requestManager
+    NSString *requestString = [NSString stringWithFormat:@"users/%@", userName];
+
+    [self.sessionManager
         GET:requestString
         parameters:nil
-        success:^(AFHTTPRequestOperation *operation, id responseObject) {
-            success(responseObject);
+        progress:nil
+        success:^(NSURLSessionDataTask * _Nonnull task, NSDictionary *  _Nullable responseObject) {
+            if (success) {
+                success(responseObject);
+            }
         }
-        failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+        failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
             failure(error);
         }];
     
