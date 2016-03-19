@@ -7,6 +7,9 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		31E56CE91C9D794000EA7A16 /* RepositoryViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 31E56CE71C9D794000EA7A16 /* RepositoryViewController.m */; };
+		31E56CEA1C9D794000EA7A16 /* RepositoryViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 31E56CE81C9D794000EA7A16 /* RepositoryViewController.xib */; };
+		31E56CED1C9D8B9400EA7A16 /* Launch.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 31E56CEC1C9D8B9400EA7A16 /* Launch.storyboard */; };
 		51404CE361ED4826A0BDE3C4 /* libPods.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 5C2F1CEAB4AE426A8406E4A4 /* libPods.a */; };
 		AEB73B3218E9979F0021BCCD /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AEB73B3118E9979F0021BCCD /* Foundation.framework */; };
 		AEB73B3418E9979F0021BCCD /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AEB73B3318E9979F0021BCCD /* CoreGraphics.framework */; };
@@ -36,6 +39,11 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		31E56CE61C9D794000EA7A16 /* RepositoryViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = RepositoryViewController.h; path = RepositoryVC/RepositoryViewController.h; sourceTree = "<group>"; };
+		31E56CE71C9D794000EA7A16 /* RepositoryViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = RepositoryViewController.m; path = RepositoryVC/RepositoryViewController.m; sourceTree = "<group>"; };
+		31E56CE81C9D794000EA7A16 /* RepositoryViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = RepositoryViewController.xib; path = RepositoryVC/RepositoryViewController.xib; sourceTree = "<group>"; };
+		31E56CEB1C9D7F7A00EA7A16 /* Repos.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Repos.h; sourceTree = "<group>"; };
+		31E56CEC1C9D8B9400EA7A16 /* Launch.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = Launch.storyboard; sourceTree = "<group>"; };
 		5C2F1CEAB4AE426A8406E4A4 /* libPods.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libPods.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		96D5340F88378DB305CABB8D /* Pods.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.release.xcconfig; path = "Pods/Target Support Files/Pods/Pods.release.xcconfig"; sourceTree = "<group>"; };
 		AEB73B2E18E9979F0021BCCD /* networking_example.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = networking_example.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -87,6 +95,16 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		31E56CE21C9D785A00EA7A16 /* RepositoryVC */ = {
+			isa = PBXGroup;
+			children = (
+				31E56CE61C9D794000EA7A16 /* RepositoryViewController.h */,
+				31E56CE71C9D794000EA7A16 /* RepositoryViewController.m */,
+				31E56CE81C9D794000EA7A16 /* RepositoryViewController.xib */,
+			);
+			name = RepositoryVC;
+			sourceTree = "<group>";
+		};
 		6A6744009696ED1BC927658E /* Pods */ = {
 			isa = PBXGroup;
 			children = (
@@ -131,6 +149,7 @@
 		AEB73B3718E9979F0021BCCD /* networking_example */ = {
 			isa = PBXGroup;
 			children = (
+				31E56CE21C9D785A00EA7A16 /* RepositoryVC */,
 				AEB73B4018E9979F0021BCCD /* AppDelegate.h */,
 				AEB73B4118E9979F0021BCCD /* AppDelegate.m */,
 				AEB73B4318E9979F0021BCCD /* Main.storyboard */,
@@ -140,6 +159,8 @@
 				AEB73B3818E9979F0021BCCD /* Supporting Files */,
 				AEB73B6618E99BEB0021BCCD /* GITHUBAPIController.h */,
 				AEB73B6718E99BEB0021BCCD /* GITHUBAPIController.m */,
+				31E56CEB1C9D7F7A00EA7A16 /* Repos.h */,
+				31E56CEC1C9D8B9400EA7A16 /* Launch.storyboard */,
 			);
 			path = networking_example;
 			sourceTree = "<group>";
@@ -252,6 +273,8 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				31E56CEA1C9D794000EA7A16 /* RepositoryViewController.xib in Resources */,
+				31E56CED1C9D8B9400EA7A16 /* Launch.storyboard in Resources */,
 				AEB73B4A18E9979F0021BCCD /* Images.xcassets in Resources */,
 				AEB73B3C18E9979F0021BCCD /* InfoPlist.strings in Resources */,
 				AEB73B4518E9979F0021BCCD /* Main.storyboard in Resources */,
@@ -321,6 +344,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				31E56CE91C9D794000EA7A16 /* RepositoryViewController.m in Sources */,
 				AEB73B4818E9979F0021BCCD /* ViewController.m in Sources */,
 				AEB73B6818E99BEB0021BCCD /* GITHUBAPIController.m in Sources */,
 				AEB73B4218E9979F0021BCCD /* AppDelegate.m in Sources */,

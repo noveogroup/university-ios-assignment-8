@@ -1,7 +1,6 @@
 #import "GITHUBAPIController.h"
 #import <AFNetworking/AFNetworking.h>
 
-
 static NSString *const kBaseAPIURL = @"https://api.github.com";
 
 
@@ -48,7 +47,7 @@ static NSString *const kBaseAPIURL = @"https://api.github.com";
         GET:requestString
         parameters:nil
         progress:nil
-        success:^(NSURLSessionDataTask * _Nonnull task, NSDictionary *  _Nullable responseObject) {
+        success:^(NSURLSessionDataTask * _Nonnull task, id _Nullable responseObject) {
             if (success) {
                 success(responseObject);
             }
@@ -56,7 +55,6 @@ static NSString *const kBaseAPIURL = @"https://api.github.com";
         failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
             failure(error);
         }];
-    
 }
 
 #pragma mark - Public methods
@@ -75,5 +73,39 @@ static NSString *const kBaseAPIURL = @"https://api.github.com";
             failure(error);
         }];
 }
+
+- (void)getReposForUser:(NSString *)userName
+                success:(void (^)(NSArray *))success
+                failure:(void (^)(NSError *))failure
+{
+    [self.sessionManager
+        GET:[NSString stringWithFormat:@"users/%@/repos", userName]
+        parameters:nil
+        progress:^(NSProgress * _Nonnull downloadProgress) {
+            NSLog(@"%@", @(downloadProgress.completedUnitCount));
+        }
+        success:^(NSURLSessionDataTask * _Nonnull task, id _Nullable responseObject) {
+            if (success) {
+                            
+                NSMutableArray *objects = [NSMutableArray array];
+                NSArray *response = (NSArray *)responseObject;
+                for (NSDictionary* dict in response) {
+                    NSDictionary *reposInfo = [[NSDictionary alloc] initWithObjectsAndKeys:
+                                               dict[kReposName], kReposName,
+                                               dict[kReposCreatedDate], kReposCreatedDate,
+                                               dict[kReposUpdatedDate], kReposUpdatedDate, nil];
+                    [objects addObject:reposInfo];
+                }
+
+                success(objects);
+            }
+        }
+        failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
+            failure(error);
+        }];
+}
+
+
+
 
 @end
