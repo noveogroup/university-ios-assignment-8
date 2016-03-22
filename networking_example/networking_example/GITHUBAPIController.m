@@ -1,8 +1,6 @@
 #import "GITHUBAPIController.h"
-#import <AFNetworking/AFNetworking.h>
 
 static NSString *const kBaseAPIURL = @"https://api.github.com";
-
 
 @interface GITHUBAPIController ()
 @property (strong, nonatomic) AFHTTPSessionManager *sessionManager;
@@ -41,7 +39,9 @@ static NSString *const kBaseAPIURL = @"https://api.github.com";
     success:(void (^)(NSDictionary *))success
     failure:(void (^)(NSError *))failure
 {
-    NSString *requestString = [NSString stringWithFormat:@"users/%@", userName];
+    NSString *encidedUserName = [userName stringByAddingPercentEncodingWithAllowedCharacters:[NSCharacterSet URLPathAllowedCharacterSet]];
+
+    NSString *requestString = [NSString stringWithFormat:@"users/%@", encidedUserName];
 
     [self.sessionManager
         GET:requestString
@@ -75,34 +75,35 @@ static NSString *const kBaseAPIURL = @"https://api.github.com";
 }
 
 - (void)getReposForUser:(NSString *)userName
-                success:(void (^)(NSArray *))success
+                success:(void (^)(NSArray <RepositoryModel *> *))success
                 failure:(void (^)(NSError *))failure
 {
-    [self.sessionManager
-        GET:[NSString stringWithFormat:@"users/%@/repos", userName]
-        parameters:nil
-        progress:^(NSProgress * _Nonnull downloadProgress) {
-            NSLog(@"%@", @(downloadProgress.completedUnitCount));
-        }
-        success:^(NSURLSessionDataTask * _Nonnull task, id _Nullable responseObject) {
-            if (success) {
-                            
-                NSMutableArray *objects = [NSMutableArray array];
-                NSArray *response = (NSArray *)responseObject;
-                for (NSDictionary* dict in response) {
-                    NSDictionary *reposInfo = [[NSDictionary alloc] initWithObjectsAndKeys:
-                                               dict[kReposName], kReposName,
-                                               dict[kReposCreatedDate], kReposCreatedDate,
-                                               dict[kReposUpdatedDate], kReposUpdatedDate, nil];
-                    [objects addObject:reposInfo];
-                }
+    NSString *encidedUserName = [userName stringByAddingPercentEncodingWithAllowedCharacters:[NSCharacterSet URLPathAllowedCharacterSet]];
 
-                success(objects);
-            }
-        }
-        failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
-            failure(error);
-        }];
+    [self.sessionManager GET:[NSString stringWithFormat:@"users/%@/repos", encidedUserName]
+                parameters:nil
+                    progress:^(NSProgress * _Nonnull downloadProgress) {
+                    }
+                     success:^(NSURLSessionDataTask * _Nonnull task, id _Nullable responseObject) {
+                         if (success) {
+                            
+                             NSMutableArray <RepositoryModel *> *objects = [NSMutableArray array];
+                             NSArray *response = (NSArray *)responseObject;
+                             for (NSDictionary* dict in response) {
+                                 
+                                 RepositoryModel *repository = [[RepositoryModel alloc] initWithResponseDict:dict];
+                                 
+                                 if (repository) {
+                                     [objects addObject:repository];
+                                 }
+                             }
+
+                             success(objects);
+                         }
+                     }
+                     failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
+                         failure(error);
+                     }];
 }
 
 

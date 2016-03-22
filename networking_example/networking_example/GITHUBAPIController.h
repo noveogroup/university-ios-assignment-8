@@ -1,6 +1,8 @@
 #import <Foundation/Foundation.h>
 
-#import "Repos.h"
+#import "RepositoryModel.h"
+
+#import <AFNetworking/AFNetworking.h>
 
 @interface GITHUBAPIController : NSObject
 + (instancetype)sharedController;
@@ -10,7 +12,7 @@
     failure:(void(^)(NSError *))failure;
 
 - (void)getReposForUser:(NSString *)userName
-                success:(void (^)(NSArray *))success
+                success:(void (^)(NSArray <RepositoryModel *> *))success
                 failure:(void (^)(NSError *))failure;
 
 @end

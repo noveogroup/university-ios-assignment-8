@@ -53,21 +53,33 @@
     
     [self.controller
      getReposForUser:userName
-     success:^(NSArray *objects) {
+     success:^(NSArray <RepositoryModel *> *objects) {
          
-         RepositoryViewController* vc = [[RepositoryViewController alloc] initWithRepos:(NSArray *)objects];
+         RepositoryViewController* vc = [[RepositoryViewController alloc] initWithRepos:(NSArray <RepositoryModel *> *)objects];
          [wself.navigationController pushViewController:vc animated:YES];
          
          [wself.grayView removeFromSuperview];
      } failure:^(NSError *error) {
-         if (error.code == -1009) {
+         NSHTTPURLResponse* htmlResponse = error.userInfo[AFNetworkingOperationFailingURLResponseErrorKey];
+         
+         NSLog(@"statusCode %@", @(htmlResponse.statusCode));
+         NSLog(@"AFURLResponseSerializationErrorDomain %@", error.userInfo[AFURLResponseSerializationErrorDomain]);//AFURLResponseSerializationErrorDomain
+         
+         NSInteger htmlStatusCode = htmlResponse.statusCode;
+         
+         
+         if (htmlStatusCode == 0) {
              UIAlertView* alert = [[UIAlertView alloc] initWithTitle:@"Error!" message:@"The Internet connection appears to be offline." delegate:nil cancelButtonTitle:@"Cancel" otherButtonTitles:nil];
              [alert show];
-         } else if (error.code == -1011) {
+         }  else if (htmlStatusCode == 404) {
              UIAlertView* alert = [[UIAlertView alloc] initWithTitle:@"Error!" message:@"User with this name didn't exist." delegate:nil cancelButtonTitle:@"Cancel" otherButtonTitles:nil];
              [alert show];
+         }  else if (!error.userInfo[AFURLResponseSerializationErrorDomain]) {
+             UIAlertView* alert = [[UIAlertView alloc] initWithTitle:@"Serialization error!" message:@"Incorrect response data." delegate:nil cancelButtonTitle:@"Cancel" otherButtonTitles:nil];
+             [alert show];
          } else {
-             NSLog(@"Error: %@", error);
+             UIAlertView* alert = [[UIAlertView alloc] initWithTitle:[NSString stringWithFormat:@"Error! (%@)", @(htmlStatusCode)] message:error.localizedDescription delegate:nil cancelButtonTitle:@"Cancel" otherButtonTitles:nil];
+             [alert show];
          }
          
          [wself.grayView removeFromSuperview];
@@ -104,5 +116,20 @@
     [i startAnimating];
     [self.grayView addSubview:i];
 }
+
+#pragma mark - UITextFieldDelegate
+- (BOOL)textField:(UITextField *)textField shouldChangeCharactersInRange:(NSRange)range replacementString:(NSString *)string
+{
+    NSString *newString = [textField.text stringByReplacingCharactersInRange:range withString:string];
+    
+    NSCharacterSet *set = [NSCharacterSet characterSetWithCharactersInString:@" /"];
+    
+    if ([newString rangeOfCharacterFromSet:set].length != 0) {
+        return NO;
+    }
+    
+    return YES;
+}
+
 
 @end

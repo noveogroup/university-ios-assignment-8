@@ -1,13 +1,13 @@
 
 #import "RepositoryViewController.h"
 
-#import "Repos.h"
+#import "RepositoryModel.h"
 
 @interface RepositoryViewController () <UITableViewDelegate, UITableViewDataSource>
 
 @property (weak, nonatomic) IBOutlet UITableView *tableView;
 
-@property (nonatomic, strong) NSArray* repos;
+@property (nonatomic, strong) NSArray <RepositoryModel *> *repos;
 
 @end
 
@@ -19,9 +19,9 @@
     self.navigationController.navigationBar.hidden = NO;
 }
 
-- (instancetype)initWithRepos:(NSArray *)objects
+- (instancetype)initWithRepos:(NSArray <RepositoryModel *> *)objects
 {
-    self = [super init];
+    self = [super initWithNibName:nil bundle:[NSBundle mainBundle]];
     if (self) {
         self.repos = objects;
     }
@@ -49,9 +49,9 @@
                                                reuseIdentifier:REUSABLE_CELL_ID];
     }
     
-    NSDictionary* repos = [self.repos objectAtIndex:indexPath.row];
-    tableViewCell.textLabel.text = repos[kReposName];
-    tableViewCell.detailTextLabel.text = [NSString stringWithFormat:@"Updated at %@", repos[kReposUpdatedDate]];
+    RepositoryModel* reposytory = [self.repos objectAtIndex:indexPath.row];
+    tableViewCell.textLabel.text = reposytory.name;
+    tableViewCell.detailTextLabel.text = [NSString stringWithFormat:@"Updated at %@", reposytory.updated_at];
 
     return tableViewCell;
 

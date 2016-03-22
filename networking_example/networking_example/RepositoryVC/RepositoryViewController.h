@@ -1,8 +1,10 @@
 
 #import <UIKit/UIKit.h>
 
+@class RepositoryModel;
+
 @interface RepositoryViewController : UIViewController
 
-- (instancetype)initWithRepos:(NSArray *)objects;
+- (instancetype)initWithRepos:(NSArray <RepositoryModel*> *)objects;
 
 @end
