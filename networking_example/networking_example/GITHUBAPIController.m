@@ -89,7 +89,7 @@ static NSString *const kBaseAPIURL = @"https://api.github.com";
                             
                              NSMutableArray <RepositoryModel *> *objects = [NSMutableArray array];
                              NSArray *response = (NSArray *)responseObject;
-                             for (NSDictionary* dict in response) {
+                             for (NSDictionary *dict in response) {
                                  
                                  RepositoryModel *repository = [[RepositoryModel alloc] initWithResponseDict:dict];
                                  

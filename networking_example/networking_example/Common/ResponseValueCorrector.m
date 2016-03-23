@@ -3,7 +3,7 @@
 
 @implementation ResponseValueCorrector
 
-+ (float) correctFloatValue:(id)value
++ (float)correctFloatValue:(id)value
 {
     if (!value) {
         return 0;
@@ -15,7 +15,7 @@
     }
 }
 
-+ (NSInteger) correctIntValue:(id)value
++ (NSInteger)correctIntValue:(id)value
 {
     if (!value) {
         return 0;

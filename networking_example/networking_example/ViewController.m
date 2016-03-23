@@ -62,13 +62,9 @@
      } failure:^(NSError *error) {
          NSHTTPURLResponse* htmlResponse = error.userInfo[AFNetworkingOperationFailingURLResponseErrorKey];
          
-         NSLog(@"statusCode %@", @(htmlResponse.statusCode));
-         NSLog(@"AFURLResponseSerializationErrorDomain %@", error.userInfo[AFURLResponseSerializationErrorDomain]);//AFURLResponseSerializationErrorDomain
-         
          NSInteger htmlStatusCode = htmlResponse.statusCode;
          
-         
-         if (htmlStatusCode == 0) {
+         if (error.code == NSURLErrorNotConnectedToInternet && [error.domain isEqualToString:NSURLErrorDomain]) {
              UIAlertView* alert = [[UIAlertView alloc] initWithTitle:@"Error!" message:@"The Internet connection appears to be offline." delegate:nil cancelButtonTitle:@"Cancel" otherButtonTitles:nil];
              [alert show];
          }  else if (htmlStatusCode == 404) {
