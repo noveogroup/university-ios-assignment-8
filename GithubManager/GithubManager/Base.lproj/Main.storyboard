@@ -24,7 +24,7 @@
                                     <action selector="search:" destination="BYZ-38-t0r" eventType="touchDown" id="8Yz-XY-Pdc"/>
                                 </connections>
                             </button>
-                            <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="bezel" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="6T9-Aa-h65">
+                            <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="6T9-Aa-h65">
                                 <rect key="frame" x="100" y="199" width="120" height="30"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="30" id="tlc-LO-yYz"/>
@@ -37,7 +37,21 @@
                             </textField>
                             <view hidden="YES" alpha="0.69999999999999996" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="PNZ-9Q-4fw">
                                 <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
+                                <subviews>
+                                    <activityIndicatorView opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" animating="YES" style="whiteLarge" translatesAutoresizingMaskIntoConstraints="NO" id="BGr-ZL-dAH">
+                                        <rect key="frame" x="142" y="265" width="37" height="37"/>
+                                        <constraints>
+                                            <constraint firstAttribute="width" constant="37" id="Zsc-L8-RAb"/>
+                                            <constraint firstAttribute="height" constant="37" id="bfa-tk-L4e"/>
+                                        </constraints>
+                                        <color key="color" red="0.0" green="0.47843137250000001" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                                    </activityIndicatorView>
+                                </subviews>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                <constraints>
+                                    <constraint firstItem="BGr-ZL-dAH" firstAttribute="centerX" secondItem="PNZ-9Q-4fw" secondAttribute="centerX" id="1S4-T7-yXH"/>
+                                    <constraint firstItem="BGr-ZL-dAH" firstAttribute="centerY" secondItem="PNZ-9Q-4fw" secondAttribute="centerY" id="8uI-1x-F92"/>
+                                </constraints>
                             </view>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>

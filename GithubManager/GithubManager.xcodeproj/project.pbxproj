@@ -15,6 +15,7 @@
 		8427BACD1D409BAD006ADAD9 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 8427BACB1D409BAD006ADAD9 /* LaunchScreen.storyboard */; };
 		8427BAD61D40C63F006ADAD9 /* GithubAPIController.m in Sources */ = {isa = PBXBuildFile; fileRef = 8427BAD51D40C63F006ADAD9 /* GithubAPIController.m */; };
 		8427BADC1D40FF8C006ADAD9 /* RepositoriesViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 8427BADB1D40FF8C006ADAD9 /* RepositoriesViewController.m */; };
+		84362E811D462EC000E412A3 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 84362E831D462EC000E412A3 /* Localizable.strings */; };
 		843F33DD1D42113500224F11 /* Cell.m in Sources */ = {isa = PBXBuildFile; fileRef = 843F33DC1D42113500224F11 /* Cell.m */; };
 		84E2B32F1D425B8F00FE76AA /* Repository.m in Sources */ = {isa = PBXBuildFile; fileRef = 84E2B32E1D425B8F00FE76AA /* Repository.m */; };
 		D4EFC5D842DF022BEFE85031 /* libPods-GithubManager.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 7A349046A3C310F6FA254D33 /* libPods-GithubManager.a */; };
@@ -38,6 +39,8 @@
 		8427BADA1D40FF8C006ADAD9 /* RepositoriesViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RepositoriesViewController.h; sourceTree = "<group>"; };
 		8427BADB1D40FF8C006ADAD9 /* RepositoriesViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RepositoriesViewController.m; sourceTree = "<group>"; };
 		8427BADE1D41078E006ADAD9 /* RepositoriesViewControllerDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = RepositoriesViewControllerDelegate.h; sourceTree = "<group>"; };
+		84362E821D462EC000E412A3 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/Localizable.strings; sourceTree = "<group>"; };
+		84362E841D462ECB00E412A3 /* fr */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = fr; path = fr.lproj/Localizable.strings; sourceTree = "<group>"; };
 		843F33DB1D42113500224F11 /* Cell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Cell.h; sourceTree = "<group>"; };
 		843F33DC1D42113500224F11 /* Cell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Cell.m; sourceTree = "<group>"; };
 		84E2B32D1D425B8F00FE76AA /* Repository.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Repository.h; sourceTree = "<group>"; };
@@ -77,6 +80,7 @@
 		8427BAB11D409BAD006ADAD9 = {
 			isa = PBXGroup;
 			children = (
+				84362E831D462EC000E412A3 /* Localizable.strings */,
 				8427BABC1D409BAD006ADAD9 /* GithubManager */,
 				8427BABB1D409BAD006ADAD9 /* Products */,
 				83B79AFF21F486EC1DCC3934 /* Pods */,
@@ -169,6 +173,7 @@
 			knownRegions = (
 				en,
 				Base,
+				fr,
 			);
 			mainGroup = 8427BAB11D409BAD006ADAD9;
 			productRefGroup = 8427BABB1D409BAD006ADAD9 /* Products */;
@@ -186,6 +191,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				8427BACD1D409BAD006ADAD9 /* LaunchScreen.storyboard in Resources */,
+				84362E811D462EC000E412A3 /* Localizable.strings in Resources */,
 				8427BACA1D409BAD006ADAD9 /* Assets.xcassets in Resources */,
 				8427BAC81D409BAD006ADAD9 /* Main.storyboard in Resources */,
 			);
@@ -273,6 +279,15 @@
 				8427BACC1D409BAD006ADAD9 /* Base */,
 			);
 			name = LaunchScreen.storyboard;
+			sourceTree = "<group>";
+		};
+		84362E831D462EC000E412A3 /* Localizable.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				84362E821D462EC000E412A3 /* en */,
+				84362E841D462ECB00E412A3 /* fr */,
+			);
+			name = Localizable.strings;
 			sourceTree = "<group>";
 		};
 /* End PBXVariantGroup section */

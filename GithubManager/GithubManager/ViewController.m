@@ -22,20 +22,18 @@
     self.githubAPIController = [[GithubAPIController alloc] init];
 }
 
-- (IBAction)search:(id)sender {
+- (IBAction)search:(id)sender
+{
     [self.view endEditing:YES];
     [self.cover setHidden:NO];
-    [AFNetworkActivityIndicatorManager sharedManager].enabled = YES;
     [self.githubAPIController getUserRepositoriesForUserName:self.textField.text
     success:^(NSArray * repositories) {
         [self.cover setHidden:YES];
-        [AFNetworkActivityIndicatorManager sharedManager].enabled = NO;
         self.data = repositories;
         [self performSegueWithIdentifier:@"ShowRepositoriesID" sender:self];
     }
     failure:^(NSString *errorMessage) {
         [self.cover setHidden:YES];
-        [AFNetworkActivityIndicatorManager sharedManager].enabled = NO;
         [self allertWithMessage:errorMessage];
     }];
 }
@@ -44,12 +42,12 @@
 
 - (void)allertWithMessage:(NSString *)message
 {
-    UIAlertController* alert = [UIAlertController alertControllerWithTitle:@"Error"
+    UIAlertController *alert = [UIAlertController alertControllerWithTitle:@"Error"
                                                                    message:message
                                                             preferredStyle:UIAlertControllerStyleAlert];
     
-    UIAlertAction* defaultAction = [UIAlertAction actionWithTitle:@"OK" style:UIAlertActionStyleDefault
-                                                          handler:^(UIAlertAction * action) {}];
+    UIAlertAction *defaultAction = [UIAlertAction actionWithTitle:@"OK" style:UIAlertActionStyleDefault
+                                                          handler:^(UIAlertAction *action) {}];
     
     [alert addAction:defaultAction];
     [self presentViewController:alert animated:YES completion:nil];
