@@ -1,13 +1,23 @@
 #import "ViewController.h"
 #import "GITHUBAPIController.h"
 #import <UIImageView+AFNetworking.h>
+#import "RepositoriesViewController.h"
 
+static NSString *const kStoryboardMain = @"Main";
+static NSString *const kRepositoriesViewController = @"RepositoriesViewController";
+static NSString *const kResponseHTTPEror404 = @"Not found";
+static NSString *const kResponseHTTPEror0 = @"No internet";
+static NSString *const kResponseHTTPErorElse = @"Try again";
+static NSString *const kAllertTitleError = @"ERROR!!!";
+static NSString *const kAllertOk = @"Ok";
 
 @interface ViewController () <UITextFieldDelegate>
-@property (strong, nonatomic) GITHUBAPIController *controller;
-@property (strong, nonatomic) IBOutlet UIImageView *imageView;
-@property (strong, nonatomic) IBOutlet UIButton *button;
-@property (strong, nonatomic) IBOutlet UITextField *textField;
+@property (nonatomic) GITHUBAPIController *controller;
+@property (nonatomic) IBOutlet UIImageView *imageView;
+@property (nonatomic) IBOutlet UIButton *button;
+@property (nonatomic) IBOutlet UITextField *textField;
+@property (nonatomic) UIView *grayView;
+@property (nonatomic) UIActivityIndicatorView *indicator;
 @end
 
 
@@ -21,40 +31,66 @@
 
 - (BOOL)textFieldShouldReturn:(UITextField *)textField
 {
-    [self showImage];
+    [self showRepositories];
     return NO;
 }
 
 - (IBAction)buttonTapped:(UIButton *)sender
 {
-    [self showImage];
-
-    UIView *grayView = [[UIView alloc] initWithFrame:self.view.bounds];
-    [self.view addSubview:grayView];
-    grayView.backgroundColor = [UIColor colorWithWhite:0 alpha:0.5];
-    
-    UIActivityIndicatorView *i= [[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleWhiteLarge];
-    i.center = grayView.center;
-    [i startAnimating];
-    [grayView addSubview:i];
+    [self showRepositories];
 }
 
-- (void)showImage
+- (void)showRepositories
 {
+    self.grayView = [[UIView alloc] initWithFrame:self.view.bounds];
+    [self.view addSubview:self.grayView];
+    self.grayView.backgroundColor = [UIColor colorWithWhite:0 alpha:0.5];
+    
+    self.indicator= [[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleWhiteLarge];
+    self.indicator.center = self.grayView.center;
+    [self.indicator startAnimating];
+    [self.grayView addSubview:self.indicator];
+    
     NSString *userName = self.textField.text;
-    
-    [self.textField resignFirstResponder];
-    
-    typeof(self) __weak wself = self;
-    
-    [self.controller
-     getAvatarForUser:userName
-     success:^(NSURL *imageURL) {
-         [wself.imageView setImageWithURL:imageURL];
-     }
-     failure:^(NSError *error) {
-         NSLog(@"Error: %@", error);
-     }];
+    [self.controller getRepositoriesInfoForUser:userName success:^(NSArray *repositoriesInfo) {
+        [self.indicator stopAnimating];
+        [self.grayView removeFromSuperview];
+        NSString * storyboardName = kStoryboardMain;
+        UIStoryboard *storyboard = [UIStoryboard storyboardWithName:storyboardName bundle: nil];
+        RepositoriesViewController * vc = [storyboard instantiateViewControllerWithIdentifier:kRepositoriesViewController];
+        vc.repositories = repositoriesInfo;
+        vc.title = userName;
+        [self.navigationController pushViewController:vc animated:YES];
+        
+    } failure:^(NSHTTPURLResponse *response, NSError *error) {
+        [self.indicator stopAnimating];
+        [self.grayView removeFromSuperview];
+        
+        NSString *message;
+        switch (response.statusCode) {
+            case 404:
+                message = kResponseHTTPEror404;
+                break;
+            case 0:
+                 message = kResponseHTTPEror0;
+                break;
+                
+            default:
+                message = kResponseHTTPErorElse;
+                break;
+        }
+        
+        UIAlertController* alert = [UIAlertController alertControllerWithTitle:kAllertTitleError message:message preferredStyle:UIAlertControllerStyleAlert];
+        UIAlertAction* ok = [UIAlertAction
+                             actionWithTitle:kAllertOk
+                             style:UIAlertActionStyleDefault
+                             handler:^(UIAlertAction * action)
+                             {
+                                 [alert dismissViewControllerAnimated:YES completion:nil];
+                             }];
+        [alert addAction:ok];
+        [self presentViewController:alert animated:YES completion:nil];
+    }];
 }
 
 @end

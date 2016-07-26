@@ -6,3 +6,5 @@
 #
 # Pods/
 
+.idea/
+.DS_Store

@@ -23,6 +23,9 @@
 		AEB73B5B18E9979F0021BCCD /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = AEB73B5918E9979F0021BCCD /* InfoPlist.strings */; };
 		AEB73B5D18E9979F0021BCCD /* networking_exampleTests.m in Sources */ = {isa = PBXBuildFile; fileRef = AEB73B5C18E9979F0021BCCD /* networking_exampleTests.m */; };
 		AEB73B6818E99BEB0021BCCD /* GITHUBAPIController.m in Sources */ = {isa = PBXBuildFile; fileRef = AEB73B6718E99BEB0021BCCD /* GITHUBAPIController.m */; };
+		E216EB161D4635F200870751 /* RepositoriesViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E216EB151D4635F200870751 /* RepositoriesViewController.m */; };
+		E216EB191D46361300870751 /* RepositoriesTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = E216EB181D46361300870751 /* RepositoriesTableViewCell.m */; };
+		E216EB1C1D4640EB00870751 /* Repository.m in Sources */ = {isa = PBXBuildFile; fileRef = E216EB1B1D4640EB00870751 /* Repository.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -59,6 +62,12 @@
 		AEB73B5C18E9979F0021BCCD /* networking_exampleTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = networking_exampleTests.m; sourceTree = "<group>"; };
 		AEB73B6618E99BEB0021BCCD /* GITHUBAPIController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GITHUBAPIController.h; sourceTree = "<group>"; };
 		AEB73B6718E99BEB0021BCCD /* GITHUBAPIController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GITHUBAPIController.m; sourceTree = "<group>"; };
+		E216EB141D4635F200870751 /* RepositoriesViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RepositoriesViewController.h; sourceTree = "<group>"; };
+		E216EB151D4635F200870751 /* RepositoriesViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RepositoriesViewController.m; sourceTree = "<group>"; };
+		E216EB171D46361300870751 /* RepositoriesTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RepositoriesTableViewCell.h; sourceTree = "<group>"; };
+		E216EB181D46361300870751 /* RepositoriesTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RepositoriesTableViewCell.m; sourceTree = "<group>"; };
+		E216EB1A1D4640EB00870751 /* Repository.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Repository.h; sourceTree = "<group>"; };
+		E216EB1B1D4640EB00870751 /* Repository.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Repository.m; sourceTree = "<group>"; };
 		E79446CDBF636735AED58B0A /* Pods.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.debug.xcconfig; path = "Pods/Target Support Files/Pods/Pods.debug.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -140,6 +149,12 @@
 				AEB73B3818E9979F0021BCCD /* Supporting Files */,
 				AEB73B6618E99BEB0021BCCD /* GITHUBAPIController.h */,
 				AEB73B6718E99BEB0021BCCD /* GITHUBAPIController.m */,
+				E216EB141D4635F200870751 /* RepositoriesViewController.h */,
+				E216EB151D4635F200870751 /* RepositoriesViewController.m */,
+				E216EB171D46361300870751 /* RepositoriesTableViewCell.h */,
+				E216EB181D46361300870751 /* RepositoriesTableViewCell.m */,
+				E216EB1A1D4640EB00870751 /* Repository.h */,
+				E216EB1B1D4640EB00870751 /* Repository.m */,
 			);
 			path = networking_example;
 			sourceTree = "<group>";
@@ -321,6 +336,9 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				E216EB1C1D4640EB00870751 /* Repository.m in Sources */,
+				E216EB161D4635F200870751 /* RepositoriesViewController.m in Sources */,
+				E216EB191D46361300870751 /* RepositoriesTableViewCell.m in Sources */,
 				AEB73B4818E9979F0021BCCD /* ViewController.m in Sources */,
 				AEB73B6818E99BEB0021BCCD /* GITHUBAPIController.m in Sources */,
 				AEB73B4218E9979F0021BCCD /* AppDelegate.m in Sources */,
