@@ -1,12 +1,20 @@
 #import "GITHUBAPIController.h"
 #import <AFNetworking/AFNetworking.h>
+#import "Repository.h"
 
 
 static NSString *const kBaseAPIURL = @"https://api.github.com";
+static NSString *const kFieldName = @"name";
+static NSString *const kFieldAuthor = @"author";
+static NSString *const kFieldDate = @"date";
+static NSString *const kFieldCommit = @"commit";
+static NSString *const kFieldCommitter = @"committer";
+static NSString *const kFieldError = @"error";
+static NSString *const kFieldResponse = @"response";
 
 
 @interface GITHUBAPIController ()
-@property (strong, nonatomic) AFHTTPSessionManager *sessionManager;
+@property (nonatomic) AFHTTPSessionManager *sessionManager;
 @end
 
 
@@ -42,7 +50,7 @@ static NSString *const kBaseAPIURL = @"https://api.github.com";
     success:(void (^)(NSDictionary *))success
     failure:(void (^)(NSError *))failure
 {
-    NSString *requestString = [NSString stringWithFormat:@"users/%@", userName];
+    NSString *requestString = [[NSString stringWithFormat:@"users/%@", userName] stringByAddingPercentEncodingWithAllowedCharacters:[NSCharacterSet URLQueryAllowedCharacterSet]];
 
     [self.sessionManager
         GET:requestString
@@ -59,6 +67,53 @@ static NSString *const kBaseAPIURL = @"https://api.github.com";
     
 }
 
+- (void)getRepositoriesForUser:(NSString *)userName
+                       success:(void (^)(NSArray *))success
+                       failure:(void (^)(NSHTTPURLResponse *, NSError *))failure
+{
+    NSString *requestString = [[NSString stringWithFormat:@"users/%@/repos", userName] stringByAddingPercentEncodingWithAllowedCharacters:[NSCharacterSet URLQueryAllowedCharacterSet]];
+    
+    [self.sessionManager
+     GET:requestString
+     parameters:nil
+     progress:nil
+     success:^(NSURLSessionDataTask * _Nonnull task, NSArray *  _Nullable responseObject) {
+         if (success) {
+             success(responseObject);
+         }
+     }
+     failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
+         if (failure) {
+             NSHTTPURLResponse *response = (NSHTTPURLResponse *)task.response;
+             failure(response, error);
+         }
+     }];
+}
+
+- (void)getCommitsForUser:(NSString *)userName
+           inRepositories:(NSString *)repositorName
+                  success:(void (^)(NSArray *))success
+                  failure:(void (^)(NSHTTPURLResponse *, NSError *))failure
+{
+    NSString *requestString = [[NSString stringWithFormat:@"repos/%@/%@/commits", userName, repositorName]  stringByAddingPercentEncodingWithAllowedCharacters:[NSCharacterSet URLQueryAllowedCharacterSet]];
+    
+    [self.sessionManager
+     GET:requestString
+     parameters:nil
+     progress:nil
+     success:^(NSURLSessionDataTask * _Nonnull task, NSArray *  _Nullable responseObject) {
+         if (success) {
+             success(responseObject);
+         }
+     }
+     failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
+         if (failure) {
+             NSHTTPURLResponse *response = (NSHTTPURLResponse *)task.response;
+             failure(response, error);
+         }
+     }];
+}
+
 #pragma mark - Public methods
 
 - (void)getAvatarForUser:(NSString *)userName
@@ -67,13 +122,70 @@ static NSString *const kBaseAPIURL = @"https://api.github.com";
 {
     [self getInfoForUser:userName
         success:^(NSDictionary *userInfo) {
+            if (!success) {
+                return;
+            }
             NSString *avatarURLString = userInfo[@"avatar_url"];
             NSURL *avatarURL = [NSURL URLWithString:avatarURLString];
             success(avatarURL);
         }
         failure:^(NSError *error) {
-            failure(error);
+            if (failure) {
+                failure(error);
+            }
         }];
 }
+
+- (void)getRepositoriesInfoForUser:(NSString *)userName
+                           success:(void (^)(NSArray *))success
+                           failure:(void (^)(NSHTTPURLResponse *, NSError *))failure
+{
+    NSMutableArray *repositoriesInfo = [NSMutableArray array];
+    NSMutableArray *errors = [NSMutableArray array];
+    [self getRepositoriesForUser:userName success:^(NSArray *repositories) {
+        if (!success) {
+            return;
+        }
+        dispatch_group_t group = dispatch_group_create();
+        for (NSDictionary *repositor in repositories) {
+            dispatch_group_enter(group);
+            NSString *repositorName = repositor[kFieldName];
+            
+            [self getCommitsForUser:userName inRepositories:repositorName success:^(NSArray *commits) {
+                if (commits.count) {
+                    NSString *authorLastCommit = commits[0][kFieldCommit][kFieldCommitter][kFieldName];
+                    NSString *dateLastCommit = commits[0][kFieldCommit][kFieldCommitter][kFieldDate];
+                    [repositoriesInfo addObject:[[Repository alloc]initWithName:repositorName lastCommiterAuthor:authorLastCommit lastCommitDate:dateLastCommit]];
+                }
+                dispatch_group_leave(group);
+                
+            } failure:^(NSHTTPURLResponse *response, NSError *error) {
+                if (response.statusCode != 409) {
+                    NSDictionary *commit = @{
+                                             kFieldResponse: response,
+                                             kFieldError: error};
+                    [errors addObject:commit];
+                }
+                [repositoriesInfo addObject:[[Repository alloc]initWithName:repositorName]];
+                dispatch_group_leave(group);
+            }];
+        }
+        dispatch_group_notify(group, dispatch_get_main_queue(), ^{
+            if (errors.count && !repositoriesInfo.count) {
+                for (NSDictionary *commit in errors) {
+                    failure(commit[kFieldResponse], commit[kFieldError]);
+                }
+            } else {
+                success([repositoriesInfo copy]);
+            }
+        });
+    } failure:^(NSHTTPURLResponse *response, NSError *error) {
+        if (failure) {
+            failure(response, error);
+        }
+    }];
+}
+
+
 
 @end
