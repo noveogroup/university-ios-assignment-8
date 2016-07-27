@@ -42,19 +42,11 @@ static NSString *const kAllertOk = @"Ok";
 
 - (void)showRepositories
 {
-    self.grayView = [[UIView alloc] initWithFrame:self.view.bounds];
-    [self.view addSubview:self.grayView];
-    self.grayView.backgroundColor = [UIColor colorWithWhite:0 alpha:0.5];
-    
-    self.indicator= [[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleWhiteLarge];
-    self.indicator.center = self.grayView.center;
-    [self.indicator startAnimating];
-    [self.grayView addSubview:self.indicator];
+    [self showLoader:YES];
     
     NSString *userName = self.textField.text;
     [self.controller getRepositoriesInfoForUser:userName success:^(NSArray *repositoriesInfo) {
-        [self.indicator stopAnimating];
-        [self.grayView removeFromSuperview];
+        [self showLoader:NO];
         NSString * storyboardName = kStoryboardMain;
         UIStoryboard *storyboard = [UIStoryboard storyboardWithName:storyboardName bundle: nil];
         RepositoriesViewController * vc = [storyboard instantiateViewControllerWithIdentifier:kRepositoriesViewController];
@@ -63,8 +55,7 @@ static NSString *const kAllertOk = @"Ok";
         [self.navigationController pushViewController:vc animated:YES];
         
     } failure:^(NSHTTPURLResponse *response, NSError *error) {
-        [self.indicator stopAnimating];
-        [self.grayView removeFromSuperview];
+        [self showLoader:NO];
         
         NSString *message;
         switch (response.statusCode) {
@@ -91,6 +82,33 @@ static NSString *const kAllertOk = @"Ok";
         [alert addAction:ok];
         [self presentViewController:alert animated:YES completion:nil];
     }];
+}
+
+- (void)showLoader:(BOOL)active
+{
+    static BOOL first = YES;
+    if (first) {
+        self.grayView = [[UIView alloc] initWithFrame:self.view.bounds];
+        self.grayView.backgroundColor = [UIColor colorWithWhite:0 alpha:0.5];
+        
+        self.indicator= [[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleWhiteLarge];
+        self.indicator.center = self.grayView.center;
+        first = NO;
+    }
+    
+    if (active) {
+        [self.view addSubview:self.grayView];
+        [self.indicator startAnimating];
+        [self.grayView addSubview:self.indicator];
+    } else {
+        [self.indicator stopAnimating];
+        [self.grayView removeFromSuperview];
+    }
+}
+
+- (void)openRepositoriesViewController
+{
+    
 }
 
 @end

@@ -9,6 +9,8 @@ static NSString *const kFieldAuthor = @"author";
 static NSString *const kFieldDate = @"date";
 static NSString *const kFieldCommit = @"commit";
 static NSString *const kFieldCommitter = @"committer";
+static NSString *const kFieldError = @"error";
+static NSString *const kFieldResponse = @"response";
 
 
 @interface GITHUBAPIController ()
@@ -120,12 +122,17 @@ static NSString *const kFieldCommitter = @"committer";
 {
     [self getInfoForUser:userName
         success:^(NSDictionary *userInfo) {
+            if (!success) {
+                return;
+            }
             NSString *avatarURLString = userInfo[@"avatar_url"];
             NSURL *avatarURL = [NSURL URLWithString:avatarURLString];
             success(avatarURL);
         }
         failure:^(NSError *error) {
-            failure(error);
+            if (failure) {
+                failure(error);
+            }
         }];
 }
 
@@ -134,37 +141,48 @@ static NSString *const kFieldCommitter = @"committer";
                            failure:(void (^)(NSHTTPURLResponse *, NSError *))failure
 {
     NSMutableArray *repositoriesInfo = [NSMutableArray array];
+    NSMutableArray *errors = [NSMutableArray array];
     [self getRepositoriesForUser:userName success:^(NSArray *repositories) {
-        if (success) {
-            dispatch_group_t group = dispatch_group_create();
-            for (NSDictionary *repositor in repositories) {
-                dispatch_group_enter(group);
-                NSString *repositorName = repositor[kFieldName];
-                
-                [self getCommitsForUser:userName inRepositories:repositorName success:^(NSArray *commits) {
-                    if (commits.count) {
-                        NSString *authorLastCommit = commits[0][kFieldCommit][kFieldCommitter][kFieldName];
-                        NSString *dateLastCommit = commits[0][kFieldCommit][kFieldCommitter][kFieldDate];
-                        [repositoriesInfo addObject:[[Repository alloc]initWithName:repositorName lastCommiterAuthor:authorLastCommit lastCommitDate:dateLastCommit]];
-                    }
-                    dispatch_group_leave(group);
-                    
-                } failure:^(NSHTTPURLResponse *response, NSError *error) {
-                    if (response.statusCode == 409) {
-                        [repositoriesInfo addObject:[[Repository alloc]initWithName:repositorName]];
-                    } else {
-                        failure(response, error);
-                    }
-                    dispatch_group_leave(group);
-                }];
-            }
-            dispatch_group_notify(group, dispatch_get_main_queue(), ^{
-                
-            success([repositoriesInfo copy]);
-            });
+        if (!success) {
+            return;
         }
+        dispatch_group_t group = dispatch_group_create();
+        for (NSDictionary *repositor in repositories) {
+            dispatch_group_enter(group);
+            NSString *repositorName = repositor[kFieldName];
+            
+            [self getCommitsForUser:userName inRepositories:repositorName success:^(NSArray *commits) {
+                if (commits.count) {
+                    NSString *authorLastCommit = commits[0][kFieldCommit][kFieldCommitter][kFieldName];
+                    NSString *dateLastCommit = commits[0][kFieldCommit][kFieldCommitter][kFieldDate];
+                    [repositoriesInfo addObject:[[Repository alloc]initWithName:repositorName lastCommiterAuthor:authorLastCommit lastCommitDate:dateLastCommit]];
+                }
+                dispatch_group_leave(group);
+                
+            } failure:^(NSHTTPURLResponse *response, NSError *error) {
+                if (response.statusCode != 409) {
+                    NSDictionary *commit = @{
+                                             kFieldResponse: response,
+                                             kFieldError: error};
+                    [errors addObject:commit];
+                }
+                [repositoriesInfo addObject:[[Repository alloc]initWithName:repositorName]];
+                dispatch_group_leave(group);
+            }];
+        }
+        dispatch_group_notify(group, dispatch_get_main_queue(), ^{
+            if (errors.count && !repositoriesInfo.count) {
+                for (NSDictionary *commit in errors) {
+                    failure(commit[kFieldResponse], commit[kFieldError]);
+                }
+            } else {
+                success([repositoriesInfo copy]);
+            }
+        });
     } failure:^(NSHTTPURLResponse *response, NSError *error) {
-        failure(response, error);
+        if (failure) {
+            failure(response, error);
+        }
     }];
 }
 
